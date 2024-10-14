@@ -1,0 +1,71 @@
+.receitasTable {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  background-color: var(--white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  padding-bottom: 2rem;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    padding-block: 2rem;
+    padding-inline: 2.5rem;
+    border-bottom: 1px solid var(--opacity-gray);
+  }
+
+  &__title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--black);
+  }
+
+  &__container {
+    border-collapse: separate;
+    width: 100%;
+    padding-inline: 2.5rem;
+
+    th,
+    td {
+      text-align: start;
+      font-size: 0.875rem;
+      padding: 0.75rem;
+      border-bottom: 1px solid var(--opacity-gray);
+    }
+
+    th {
+      font-weight: bold;
+      text-transform: capitalize;
+    }
+  }
+
+  &__filters {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 1rem;
+    padding: 1rem 2.5rem;
+
+    select,
+    input {
+      padding: 10px;
+      border: 1px solid var(--opacity-gray);
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+  }
+
+  &__generatePdfButton {
+    display: block;
+    margin: 1rem auto;
+    padding: 0.75rem 2rem;
+    background-color: var(--dark-gray);
+    color: var(--white);
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--medium-gray);
+    }
+  }
+}

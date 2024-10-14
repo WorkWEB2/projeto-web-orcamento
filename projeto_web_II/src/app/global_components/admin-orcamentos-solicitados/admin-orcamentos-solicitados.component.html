@@ -1,0 +1,45 @@
+<div class="adminBudgetForm">
+  <div class="adminBudgetForm__header">
+    <h1 class="adminBudgetForm__title">Orçamentos solicitados</h1>
+  </div>
+
+  <form class="adminBudgetForm__form">
+    <div class="adminBudgetForm__formGroup">
+      <label for="descricao-equipamento" class="adminBudgetForm__label">Descrição do equipamento</label>
+      <textarea id="descricao-equipamento" class="adminBudgetForm__textarea" rows="4" [(ngModel)]="descricaoEquipamento"
+        name="descricaoEquipamento" disabled></textarea>
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="categoria-equipamento" class="adminBudgetForm__label">Categoria do equipamento</label>
+      <select id="categoria-equipamento" class="adminBudgetForm__select" [(ngModel)]="categoriaEquipamento"
+        name="categoriaEquipamento" disabled>
+        <option value="" disabled>Selecione uma categoria</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+      </select>
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="descricao-defeito" class="adminBudgetForm__label">Descrição do defeito</label>
+      <textarea id="descricao-defeito" class="adminBudgetForm__textarea" rows="4" [(ngModel)]="descricaoDefeito"
+        name="descricaoDefeito" disabled></textarea>
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="responsavel" class="adminBudgetForm__label">Responsável pelo serviço</label>
+      <select id="responsavel" class="adminBudgetForm__select" [(ngModel)]="responsavelSelecionado"
+        name="responsavelSelecionado">
+        <option value="" disabled selected>Selecione um responsável</option>
+        <option *ngFor="let responsavel of responsaveis" [value]="responsavel">{{ responsavel }}</option>
+      </select>
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="valor-orcamento" class="adminBudgetForm__label">Valor do orçamento</label>
+      <input id="valor-orcamento" type="text" class="adminBudgetForm__input" [(ngModel)]="valorOrcamento"
+        name="valorOrcamento">
+    </div>
+
+    <button type="button" class="adminBudgetForm__submitButton">Salvar orçamento</button>
+  </form>
+</div>

@@ -1,0 +1,29 @@
+<div class="ordersTable">
+  <div class="ordersTable__header">
+    <h1 class="ordersTable__title">Pedidos</h1>
+  </div>
+  <table class="ordersTable__container">
+    <thead class="ordersTable__tableHeader">
+      <tr>
+        <th>Item</th>
+        <th>Data/Hora</th>
+        <th>Cliente</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="ordersTable__tableBody">
+      <tr *ngFor="let order of orders">
+        <td>{{ order.item }}</td>
+        <td>{{ order.date }}</td>
+        <td>{{ order.client }}</td>
+        <td>{{ order.status }}</td>
+        <td>
+          <a class="ordersTable__buttonOrder" href="/admin/orcamentos-solicitados">
+            <img src="/assets/eye.svg" alt="Ver Detalhes">
+          </a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

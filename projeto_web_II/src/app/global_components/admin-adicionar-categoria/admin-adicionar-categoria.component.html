@@ -1,0 +1,29 @@
+<div class="categoriasTable">
+  <div class="categoriasTable__header">
+    <h1 class="categoriasTable__title">Cadastrar Categoria</h1>
+  </div>
+  <table class="categoriasTable__container">
+    <thead class="categoriasTable__tableHeader">
+      <tr>
+        <th>Nome</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="categoriasTable__tableBody">
+      <tr class="categoriasTable__tableRow" *ngFor="let categoria of categorias">
+        <td>{{ categoria.nome }}</td>
+        <td class="categoriasTable__actions">
+          <button class="categoriasTable__deleteButton" (click)="deleteCategoria(categoria)">
+            <img src="/assets/delete.svg" alt="Excluir Categoria">
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="categoriasTable__inputArea">
+  <input [(ngModel)]="novaCategoria" type="text" placeholder="Nova categoria">
+  <button class="categoriasTable__addButton" (click)="addCategoria()">
+    <img src="/assets/plus.svg" alt="Adicionar Categoria">
+  </button>
+</div>

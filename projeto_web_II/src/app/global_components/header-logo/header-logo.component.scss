@@ -1,0 +1,14 @@
+.container-logo {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    width: 100vw;
+    height: 25vh;
+    gap: 20px;
+}
+
+span {
+    color: var(--dark-gray);
+    font-size: 24px;
+    font-weight: 800;
+}

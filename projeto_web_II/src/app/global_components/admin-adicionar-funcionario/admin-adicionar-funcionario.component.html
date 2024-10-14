@@ -1,0 +1,57 @@
+<div class="funcionariosTable">
+  <div class="funcionariosTable__header">
+    <h1 class="funcionariosTable__title">Cadastrar Funcionário</h1>
+  </div>
+  <table class="funcionariosTable__container">
+    <thead class="funcionariosTable__tableHeader">
+      <tr>
+        <th>Nome</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="funcionariosTable__tableBody">
+      <tr *ngFor="let funcionario of funcionarios">
+        <td>{{ funcionario.nome }}</td>
+        <td class="funcionariosTable__actions">
+          <button class="funcionariosTable__deleteButton" (click)="deleteFuncionario(funcionario)">
+            <img src="/assets/delete.svg" alt="Excluir Funcionário">
+          </button>
+          <button class="funcionariosTable__viewButton" (click)="openModal(funcionario)">
+            <img src="/assets/pen.svg" alt="Ver Detalhes">
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <button class="funcionariosTable__addButton" (click)="openModal()">
+    <img src="/assets/plus.svg" alt="Adicionar Funcionário">
+  </button>
+
+  <!-- Modal -->
+  <div class="funcionariosTable__modal" *ngIf="isModalOpen">
+    <div class="funcionariosTable__modalContent">
+      <div class="funcionariosTable__inputField">
+        <label>Nome Completo</label>
+        <input [(ngModel)]="selectedFuncionario.nome" type="text">
+      </div>
+      <div class="funcionariosTable__inputField">
+        <label>Data de Nascimento</label>
+        <input [(ngModel)]="selectedFuncionario.dataNascimento" type="date">
+      </div>
+      <div class="funcionariosTable__inputField">
+        <label>E-mail</label>
+        <input [(ngModel)]="selectedFuncionario.email" type="email">
+      </div>
+      <div class="funcionariosTable__inputField">
+        <label>Senha</label>
+        <input [(ngModel)]="selectedFuncionario.senha" type="text">
+      </div>
+      <div class="funcionariosTable__modalActions">
+        <button class="funcionariosTable__cancelButton" (click)="closeModal()">Cancelar</button>
+      </div>
+      <div class="funcionariosTable__modalActions">
+        <button class="funcionariosTable__confirmButton" (click)="saveFuncionario()">Confirmar</button>
+      </div>
+    </div>
+  </div>
+</div>

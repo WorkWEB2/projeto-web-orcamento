@@ -1,0 +1,42 @@
+<div class="userNavbar">
+  <a class="userNavbar__headerContainer" href="/home">
+    <div class="userNavbar__iconContainer">
+      <img src="/assets/logo.svg" alt="logo" class="userNavbar__icon">
+    </div>
+    <div class="userNavbar__text">Admin</div>
+  </a>
+
+  <div class="userNavbar__tabContainer">
+    <a class="userNavbar__tab" href="/home" [ngClass]="{'active': isActive('/home')}">
+      <div class="userNavbar__tabIconContainer">
+        <img src="/assets/dashboard.svg" alt="home" class="userNavbar__tabIcon">
+      </div>
+      <div class="userNavbar__tabText">Dashboard</div>
+    </a>
+
+    <a class="userNavbar__tab" href="/solicitar-orcamento" [ngClass]="{'active': isActive('solicitar-orcamento')}">
+      <div class="userNavbar__tabIconContainer">
+        <img src="/assets/solicitar-orcamento.svg" alt="Solicitar orçamento" class="userNavbar__tabIcon">
+      </div>
+      <div class="userNavbar__tabText">Solicitar orçamento</div>
+    </a>
+
+    <a class="userNavbar__tab" href="/mostrar-orcamentos" [ngClass]="{'active': isActive('mostrar-orcamentos')}">
+      <div class="userNavbar__tabIconContainer">
+        <img src="/assets/mostrar-orcamento.svg" alt="Mostrar orçamentos" class="userNavbar__tabIcon">
+      </div>
+      <div class="userNavbar__tabText">Mostrar orçamentos</div>
+    </a>
+  </div>
+
+  <div class="userNavbar__div"></div>
+
+  <div class="userNavbar__tabContainer">
+    <a class="userNavbar__tab userNavbar__tab--mod" href="/">
+      <div class="userNavbar__tabIconContainer">
+        <img src="/assets/logout.svg" alt="logout" class="userNavbar__tabIcon">
+      </div>
+      <div class="userNavbar__tabText">Logout</div>
+    </a>
+  </div>
+</div>

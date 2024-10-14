@@ -1,0 +1,59 @@
+<div class="adminNavbar">
+  <a class="adminNavbar__headerContainer" href="/admin/home">
+    <div class="adminNavbar__iconContainer">
+      <img src="/assets/logo.svg" alt="logo" class="adminNavbar__icon">
+    </div>
+    <div class="adminNavbar__text">Admin</div>
+  </a>
+
+  <div class="adminNavbar__tabContainer">
+    <a class="adminNavbar__tab" href="/admin/home" [ngClass]="{'active': isActive('/admin/home')}">
+      <div class="adminNavbar__tabIconContainer">
+        <img src="/assets/dashboard.svg" alt="home" class="adminNavbar__tabIcon">
+      </div>
+      <div class="adminNavbar__tabText">Dashboard</div>
+    </a>
+
+    <a class="adminNavbar__tab" href="/admin/orcamentos-solicitados"
+      [ngClass]="{'active': isActive('/admin/orcamentos-solicitados')}">
+      <div class="adminNavbar__tabIconContainer">
+        <img src="/assets/mostrar-orcamento.svg" alt="Orçamentos solicitado" class="adminNavbar__tabIcon">
+      </div>
+      <div class="adminNavbar__tabText">Orçamentos solicitados</div>
+    </a>
+
+    <a class="adminNavbar__tab" href="/admin/cadastrar-funcionario"
+      [ngClass]="{'active': isActive('/admin/cadastrar-funcionario')}">
+      <div class="adminNavbar__tabIconContainer">
+        <img src="/assets/user.svg" alt="Cadastrar funcionário" class="adminNavbar__tabIcon">
+      </div>
+      <div class="adminNavbar__tabText">Cadastrar funcionário</div>
+    </a>
+
+    <a class="adminNavbar__tab" href="/admin/cadastrar-categoria"
+      [ngClass]="{'active': isActive('/admin/cadastrar-categoria')}">
+      <div class="adminNavbar__tabIconContainer">
+        <img src="/assets/category.svg" alt="Cadastrar categoria" class="adminNavbar__tabIcon">
+      </div>
+      <div class="adminNavbar__tabText">Cadastrar categoria</div>
+    </a>
+
+    <a class="adminNavbar__tab" href="/admin/receitas" [ngClass]="{'active': isActive('/admin/receitas')}">
+      <div class="adminNavbar__tabIconContainer">
+        <img src="/assets/money.svg" alt="Receitas" class="adminNavbar__tabIcon">
+      </div>
+      <div class="adminNavbar__tabText">Receitas</div>
+    </a>
+  </div>
+
+  <div class="adminNavbar__div"></div>
+
+  <div class="adminNavbar__tabContainer">
+    <a class="adminNavbar__tab adminNavbar__tab--mod" href="/">
+      <div class="adminNavbar__tabIconContainer">
+        <img src="/assets/logout.svg" alt="logout" class="adminNavbar__tabIcon">
+      </div>
+      <div class="adminNavbar__tabText">Logout</div>
+    </a>
+  </div>
+</div>

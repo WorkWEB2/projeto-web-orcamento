@@ -1,0 +1,38 @@
+<div class="receitasTable">
+  <div class="receitasTable__header">
+    <h1 class="receitasTable__title">Receitas</h1>
+  </div>
+  <table class="receitasTable__container">
+    <thead class="receitasTable__tableHeader">
+      <tr>
+        <th>Serviço</th>
+        <th>Categoria</th>
+        <th>Data/Hora</th>
+        <th>Receita</th>
+      </tr>
+    </thead>
+    <tbody class="receitasTable__tableBody">
+      <tr *ngFor="let receita of receitasFiltradas">
+        <td>{{ receita.servico }}</td>
+        <td>{{ receita.categoria }}</td>
+        <td>{{ receita.dataHora | date:'dd/MM/yy, HH:mm' }}</td>
+        <td>{{ receita.receita | currency:'BRL' }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Filtros -->
+  <div class="receitasTable__filters">
+    <select [(ngModel)]="filtroCategoria" (change)="filtrarReceitas()">
+      <option value="">Filtrar por categoria</option>
+      <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+    </select>
+    <input [(ngModel)]="dataInicial" type="date" placeholder="Data inicial" (change)="filtrarReceitas()">
+    <input [(ngModel)]="dataFinal" type="date" placeholder="Data final" (change)="filtrarReceitas()">
+  </div>
+
+  <!-- Botão para gerar PDF -->
+  <button class="receitasTable__generatePdfButton" (click)="gerarPDF()">
+    Gerar PDF
+  </button>
+</div>

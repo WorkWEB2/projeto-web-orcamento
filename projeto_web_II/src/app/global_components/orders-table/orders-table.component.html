@@ -1,0 +1,32 @@
+<div class="ordersTable">
+  <div class="ordersTable__header">
+    <h1 class="ordersTable__title">Pedidos</h1>
+  </div>
+  <table class="ordersTable__container">
+    <thead class="ordersTable__tableHeader">
+      <tr>
+        <th>Item</th>
+        <th>Data/Hora</th>
+        <th>Valor</th>
+        <th>Status</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody class="ordersTable__tableBody">
+      <tr *ngFor="let order of orders">
+        <td>{{ order.item }}</td>
+        <td>{{ order.date }}</td>
+        <td>R$ {{ order.value }}</td>
+        <td>{{ order.status }}</td>
+        <td>
+          <button class="ordersTable__buttonOrder" (click)="openOrderModal(order)">
+            <img src="/assets/eye.svg" alt="Ver Detalhes">
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<app-order-modal *ngIf="selectedOrder" [order]="selectedOrder" (close)="closeOrderModal()">
+</app-order-modal>

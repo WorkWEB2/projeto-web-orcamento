@@ -1,0 +1,30 @@
+<div class="userBudgetForm">
+  <div class="userBudgetForm__header">
+    <h1 class="userBudgetForm__title">Solicitar orçamento</h1>
+  </div>
+
+  <form class="userBudgetForm__form" (ngSubmit)="onSubmit()">
+    <div class="userBudgetForm__formGroup">
+      <label for="descricao-equipamento" class="userBudgetForm__label">Descrição do equipamento</label>
+      <textarea id="descricao-equipamento" class="userBudgetForm__textarea" rows="4" [(ngModel)]="descricaoEquipamento"
+        name="descricaoEquipamento" required></textarea>
+    </div>
+
+    <div class="userBudgetForm__formGroup">
+      <label for="categoria-equipamento" class="userBudgetForm__label">Categoria do equipamento</label>
+      <select id="categoria-equipamento" class="userBudgetForm__select" [(ngModel)]="categoriaEquipamento"
+        name="categoriaEquipamento" required>
+        <option value="" disabled>Selecione uma categoria</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+      </select>
+    </div>
+
+    <div class="userBudgetForm__formGroup">
+      <label for="descricao-defeito" class="userBudgetForm__label">Descrição do defeito</label>
+      <textarea id="descricao-defeito" class="userBudgetForm__textarea" rows="4" [(ngModel)]="descricaoDefeito"
+        name="descricaoDefeito" required></textarea>
+    </div>
+
+    <button type="submit" class="userBudgetForm__submitButton">Solicitar</button>
+  </form>
+</div>

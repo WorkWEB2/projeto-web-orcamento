@@ -1,0 +1,46 @@
+<div class="orderModal">
+  <div class="orderModal__content">
+    <h2 class="orderModal__title">Descrição</h2>
+    <p class="orderModal__description">{{ order.description }}</p>
+
+    <div class="orderModal__table">
+      <h3 class="orderModal__subtitle">Detalhes do pedido</h3>
+      <div class="orderModal__tableRown">
+        <p class="orderModal__label">Item:</p>
+        <p class="orderModal__value">{{ order.item }}</p>
+      </div>
+      <div class="orderModal__tableRown">
+        <p class="orderModal__label">Data/Hora:</p>
+        <p class="orderModal__value"> {{ order.date }}</p>
+      </div>
+      <div class="orderModal__tableRown">
+        <p class="orderModal__label">Responsável pelo serviço:</p>
+        <p class="orderModal__value"> {{ order.responsible }}</p>
+      </div>
+      <div class="orderModal__tableRown">
+        <p class="orderModal__label">Valor:</p>
+        <p class="orderModal__value">R$ {{ order.value }}</p>
+      </div>
+    </div>
+
+    <div class="orderModal__progress">
+      <h3 class="orderModal__subtitle">Progresso do pedido</h3>
+      <div class="orderModal__statusFlow">
+        <ng-container *ngFor="let status of statusesToDisplay; let i = index">
+          <span [class]="getStatusClass(status)">{{ status }}</span>
+          <span *ngIf="i < statusesToDisplay.length - 1">→</span>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Botões de Ação -->
+    <div class="orderModal__actions">
+      <button class="orderModal__closeButton" (click)="close.emit()">Fechar</button>
+      <button *ngIf="order.status === 'ORÇADO'" (click)="aprovarPedido()">Aprovar</button>
+      <button *ngIf="order.status === 'ORÇADO'" (click)="rejeitarPedido()">Rejeitar</button>
+      <button *ngIf="order.status === 'REJEITADO'" (click)="resgatarPedido()">Resgatar</button>
+      <button *ngIf="order.status === 'AGUARDANDO PAGAMENTO'" (click)="pagarPedido()">Pagar</button>
+    </div>
+
+  </div>
+</div>
