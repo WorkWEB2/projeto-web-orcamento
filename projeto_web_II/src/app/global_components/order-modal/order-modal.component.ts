@@ -48,15 +48,21 @@ export class OrderModalComponent {
   }
 
   aprovarPedido() {
-    this.logHistory('AGUARDANDO PAGAMENTO');
-    this.order.status = 'AGUARDANDO PAGAMENTO';
-    this.close.emit();
+    const valor = this.order.value;
+    alert(`Serviço Aprovado no Valor R$ ${valor}`);
+    this.logHistory('APROVADO');
+    this.order.status = 'APROVADO';
+    this.close.emit(); // Redireciona para RF003 após clicar em OK
   }
 
   rejeitarPedido() {
-    this.logHistory('REJEITADO');
-    this.order.status = 'REJEITADO';
-    this.close.emit();
+    const motivo = prompt('Por favor, insira o motivo da rejeição:');
+    if (motivo) {
+      this.logHistory('REJEITADO');
+      this.order.status = 'REJEITADO';
+      alert('Serviço Rejeitado');
+      this.close.emit(); // Redireciona para RF003
+    }
   }
 
   resgatarPedido() {
