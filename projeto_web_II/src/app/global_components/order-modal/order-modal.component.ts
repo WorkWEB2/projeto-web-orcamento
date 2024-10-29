@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './order-modal.component.html',
   styleUrls: ['./order-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DatePipe],
 })
 export class OrderModalComponent {
   @Input() order: any;
@@ -39,27 +39,34 @@ export class OrderModalComponent {
       PAGO: 'alaranjado',
       FINALIZADO: 'verde',
     };
-
     return statusColors[status] || '';
   }
 
-  // Métodos de ação conforme necessário
+  logHistory(status: string) {
+    const date = new DatePipe('en-US').transform(new Date(), 'short');
+    this.order.history.push({ date, status });
+  }
+
   aprovarPedido() {
+    this.logHistory('AGUARDANDO PAGAMENTO');
     this.order.status = 'AGUARDANDO PAGAMENTO';
     this.close.emit();
   }
 
   rejeitarPedido() {
+    this.logHistory('REJEITADO');
     this.order.status = 'REJEITADO';
     this.close.emit();
   }
 
   resgatarPedido() {
+    this.logHistory('ORÇADO');
     this.order.status = 'ORÇADO';
     this.close.emit();
   }
 
   pagarPedido() {
+    this.logHistory('PAGO');
     this.order.status = 'PAGO';
     this.close.emit();
   }
