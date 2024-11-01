@@ -28,6 +28,7 @@
     <button class="categoriasTable__addButton" (click)="addCategoria()">
       <img src="/assets/plus.svg" alt="Adicionar Categoria">
     </button>
-    <button *ngIf="categoriaEmEdicao" (click)="cancelEdit()">Cancelar Edição</button>
+    <button class="categoriasTable__cancelButton" *ngIf="categoriaEmEdicao" (click)="cancelEdit()">Cancelar
+      Edição</button>
   </div>
 </div>

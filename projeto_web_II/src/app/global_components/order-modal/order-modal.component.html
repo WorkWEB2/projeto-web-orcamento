@@ -27,7 +27,10 @@
       <h3 class="orderModal__subtitle">Progresso do pedido</h3>
       <div class="orderModal__statusFlow">
         <ng-container *ngFor="let log of order.history">
-          <p>{{ log.date }} - <span [class]="getStatusClass(log.status)">{{ log.status }}</span></p>
+          <div class="orderModal__historic">
+            <span [class]="getStatusClass(log.status)">{{ log.status }}</span>
+            <p>{{ log.date }}</p>
+          </div>
         </ng-container>
       </div>
     </div>
