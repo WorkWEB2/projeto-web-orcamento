@@ -26,14 +26,12 @@
     <div class="orderModal__progress">
       <h3 class="orderModal__subtitle">Progresso do pedido</h3>
       <div class="orderModal__statusFlow">
-        <ng-container *ngFor="let status of statusesToDisplay; let i = index">
-          <span [class]="getStatusClass(status)">{{ status }}</span>
-          <span *ngIf="i < statusesToDisplay.length - 1">→</span>
+        <ng-container *ngFor="let log of order.history">
+          <p>{{ log.date }} - <span [class]="getStatusClass(log.status)">{{ log.status }}</span></p>
         </ng-container>
       </div>
     </div>
 
-    <!-- Botões de Ação -->
     <div class="orderModal__actions">
       <button class="orderModal__closeButton" (click)="close.emit()">Fechar</button>
       <button *ngIf="order.status === 'ORÇADO'" (click)="aprovarPedido()">Aprovar</button>
@@ -41,6 +39,5 @@
       <button *ngIf="order.status === 'REJEITADO'" (click)="resgatarPedido()">Resgatar</button>
       <button *ngIf="order.status === 'AGUARDANDO PAGAMENTO'" (click)="pagarPedido()">Pagar</button>
     </div>
-
   </div>
 </div>

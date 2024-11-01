@@ -13,6 +13,7 @@ export class AdicionarFuncionarioComponent implements OnInit {
   funcionarios: Array<any> = [];
   isModalOpen: boolean = false;
   selectedFuncionario: any = {
+    id: null,
     nome: '',
     dataNascimento: '',
     email: '',
@@ -25,18 +26,21 @@ export class AdicionarFuncionarioComponent implements OnInit {
     // Dados mockados simulando consumo do backend
     this.funcionarios = [
       {
+        id: 1,
         nome: 'João Silva',
         dataNascimento: '1990-01-01',
         email: 'joao@email.com',
         senha: '123456',
       },
       {
+        id: 2,
         nome: 'Maria Oliveira',
         dataNascimento: '1995-01-01',
-        email: 'maria@email.como',
+        email: 'maria@email.com',
         senha: '123456',
       },
       {
+        id: 3,
         nome: 'Pedro Souza',
         dataNascimento: '1980-01-01',
         email: 'pedro@email.com',
@@ -51,6 +55,7 @@ export class AdicionarFuncionarioComponent implements OnInit {
       this.selectedFuncionario = { ...funcionario };
     } else {
       this.selectedFuncionario = {
+        id: null,
         nome: '',
         dataNascimento: '',
         email: '',
@@ -65,19 +70,26 @@ export class AdicionarFuncionarioComponent implements OnInit {
 
   saveFuncionario(): void {
     if (this.selectedFuncionario.nome) {
-      const index = this.funcionarios.findIndex(
-        (f) => f.nome === this.selectedFuncionario.nome
-      );
-      if (index > -1) {
-        this.funcionarios[index] = { ...this.selectedFuncionario };
+      if (this.selectedFuncionario.id) {
+        // Atualiza o funcionário existente
+        const index = this.funcionarios.findIndex(
+          (f) => f.id === this.selectedFuncionario.id
+        );
+        if (index > -1) {
+          this.funcionarios[index] = { ...this.selectedFuncionario };
+        }
       } else {
-        this.funcionarios.push({ ...this.selectedFuncionario });
+        // Adiciona novo funcionário com ID único
+        const newId = this.funcionarios.length
+          ? Math.max(...this.funcionarios.map((f) => f.id)) + 1
+          : 1;
+        this.funcionarios.push({ ...this.selectedFuncionario, id: newId });
       }
     }
     this.closeModal();
   }
 
   deleteFuncionario(funcionario: any): void {
-    this.funcionarios = this.funcionarios.filter((f) => f !== funcionario);
+    this.funcionarios = this.funcionarios.filter((f) => f.id !== funcionario.id);
   }
 }

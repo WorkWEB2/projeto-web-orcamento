@@ -20,25 +20,25 @@ export class AdminOrdersTableComponent implements OnInit {
         item: 'Mens Black T-Shirts',
         date: '20/Mar/2023, 20:00',
         client: 'Nome do cliente',
-        status: 'Processando',
+        status: 'ABERTA',
       },
       {
         item: 'Mens Black T-Shirts',
         date: '20/Mar/2023, 20:00',
         client: 'Nome do cliente',
-        status: 'Processando',
+        status: 'ABERTA',
       },
       {
         item: 'Mens Black T-Shirts',
         date: '20/Mar/2023, 20:00',
         client: 'Nome do cliente',
-        status: 'Processando',
+        status: 'ABERTA',
       },
       {
         item: 'Mens Black T-Shirts',
         date: '20/Mar/2023, 20:00',
         client: 'Nome do cliente',
-        status: 'Processando',
+        status: 'ABERTA',
       },
     ];
   }
