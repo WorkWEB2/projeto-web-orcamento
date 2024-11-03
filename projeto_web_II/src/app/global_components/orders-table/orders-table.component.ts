@@ -1,5 +1,3 @@
-// orders-table.component.ts
-
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
@@ -18,7 +16,6 @@ export class OrdersTableComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // Dados mockados simulando consumo do backend
     this.orders = [
       {
         item: 'Camiseta Preta Masculina',
@@ -27,6 +24,7 @@ export class OrdersTableComponent implements OnInit {
         status: 'ABERTO',
         description: 'Descrição detalhada do produto...',
         responsible: 'João Silva',
+        history: [{ date: '20/Mar/2023, 20:00', status: 'ABERTO' }]
       },
       {
         item: 'Camiseta Branca Masculina',
@@ -35,8 +33,9 @@ export class OrdersTableComponent implements OnInit {
         status: 'ORÇADO',
         description: 'Uma camiseta branca para homens',
         responsible: 'Maria Souza',
+        history: [{ date: '21/Mar/2023, 21:00', status: 'ORÇADO' }]
       },
-      // mais pedidos aqui...
+      // Outros pedidos podem ser adicionados aqui
     ];
   }
 

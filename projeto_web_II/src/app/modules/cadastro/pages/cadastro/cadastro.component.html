@@ -55,6 +55,6 @@
       <input type="tel" id="telefone" class="cadastro__input" formControlName="telefone" [value]="cadastroForm.get('telefone')?.value | telefoneMask" />
     </div>
 
-    <button class="cadastro__buttonSubmit">Cadastrar</button>
+    <button class="cadastro__buttonSubmit" [routerLink]="['/']">Cadastrar</button>
   </form>
 </div>

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
@@ -6,7 +6,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './order-modal.component.html',
   styleUrls: ['./order-modal.component.scss'],
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, DatePipe],
 })
 export class OrderModalComponent {
   @Input() order: any;
@@ -39,27 +39,40 @@ export class OrderModalComponent {
       PAGO: 'alaranjado',
       FINALIZADO: 'verde',
     };
-
     return statusColors[status] || '';
   }
 
-  // Métodos de ação conforme necessário
+  logHistory(status: string) {
+    const date = new DatePipe('en-US').transform(new Date(), 'short');
+    this.order.history.push({ date, status });
+  }
+
   aprovarPedido() {
-    this.order.status = 'AGUARDANDO PAGAMENTO';
-    this.close.emit();
+    const valor = this.order.value;
+    alert(`Serviço Aprovado no Valor R$ ${valor}`);
+    this.logHistory('APROVADO');
+    this.order.status = 'APROVADO';
+    this.close.emit(); // Redireciona para RF003 após clicar em OK
   }
 
   rejeitarPedido() {
-    this.order.status = 'REJEITADO';
-    this.close.emit();
+    const motivo = prompt('Por favor, insira o motivo da rejeição:');
+    if (motivo) {
+      this.logHistory('REJEITADO');
+      this.order.status = 'REJEITADO';
+      alert('Serviço Rejeitado');
+      this.close.emit(); // Redireciona para RF003
+    }
   }
 
   resgatarPedido() {
+    this.logHistory('ORÇADO');
     this.order.status = 'ORÇADO';
     this.close.emit();
   }
 
   pagarPedido() {
+    this.logHistory('PAGO');
     this.order.status = 'PAGO';
     this.close.emit();
   }

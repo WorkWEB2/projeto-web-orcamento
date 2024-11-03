@@ -60,13 +60,10 @@
     font-weight: bold;
   }
 
-  &__progress {
-  }
-
   &__statusFlow {
     display: flex;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 0;
     font-size: 0.875rem;
 
     margin-top: 1rem;
@@ -105,6 +102,24 @@
       &.verde {
         color: var(--green);
       }
+    }
+  }
+
+  &__historic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+
+    border-right: 1px solid var(--opacity-gray);
+    padding-inline: 1rem;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      border-right: unset;
     }
   }
 

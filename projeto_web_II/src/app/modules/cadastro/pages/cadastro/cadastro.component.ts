@@ -7,12 +7,13 @@ import { CommonModule } from '@angular/common';
 import { CpfPipe } from '../../../../shared/pipes/cpf-mask.pipe';
 import { TelefonePipe } from '../../../../shared/pipes/telefone-mask.pipe';
 import { CepPipe } from '../../../../shared/pipes/cep-mask.pipe';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, NgxMaskDirective, CpfPipe, TelefonePipe, CepPipe],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, NgxMaskDirective, CpfPipe, TelefonePipe, CepPipe, RouterLink],
   providers: [provideNgxMask({ /* opções de cfg */ })],
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.scss']
