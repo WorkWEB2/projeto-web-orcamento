@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-orders-table',
@@ -8,35 +9,20 @@ import { OrderModalComponent } from '../order-modal/order-modal.component';
   imports: [CommonModule, OrderModalComponent],
   templateUrl: './orders-table.component.html',
   styleUrls: ['./orders-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersTableComponent implements OnInit {
   orders: Array<any> = [];
   selectedOrder: any = null;
 
-  constructor() {}
+  constructor(private ordersService: OrdersService) {}
 
   ngOnInit(): void {
-    this.orders = [
-      {
-        item: 'Camiseta Preta Masculina',
-        date: '20/Mar/2023, 20:00',
-        value: 75.0,
-        status: 'ABERTO',
-        description: 'Descrição detalhada do produto...',
-        responsible: 'João Silva',
-        history: [{ date: '20/Mar/2023, 20:00', status: 'ABERTO' }]
-      },
-      {
-        item: 'Camiseta Branca Masculina',
-        date: '21/Mar/2023, 21:00',
-        value: 80.0,
-        status: 'ORÇADO',
-        description: 'Uma camiseta branca para homens',
-        responsible: 'Maria Souza',
-        history: [{ date: '21/Mar/2023, 21:00', status: 'ORÇADO' }]
-      },
-      // Outros pedidos podem ser adicionados aqui
-    ];
+    console.log('OrdersTableComponent initialized');
+    this.ordersService.orders$.subscribe(orders => {
+      this.orders = orders;
+    });
+    console.log('Orders:', this.orders);
   }
 
   openOrderModal(order: any): void {
