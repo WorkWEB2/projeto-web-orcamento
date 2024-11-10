@@ -42,6 +42,10 @@ export const routes: Routes = [
     component: OrcamentosSolicitadosComponent,
   },
   {
+    path: 'admin/orcamentos-solicitados/:id',
+    component: OrcamentosSolicitadosComponent,
+  },
+  {
     path: 'admin/cadastrar-funcionario',
     component: CadastrarFuncionarioComponent,
   },
@@ -53,5 +57,4 @@ export const routes: Routes = [
     path: 'admin/receitas',
     component: ReceitasComponent,
   },
-  
 ];

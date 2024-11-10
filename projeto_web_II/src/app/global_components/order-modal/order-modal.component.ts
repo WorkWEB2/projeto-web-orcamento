@@ -56,13 +56,26 @@ export class OrderModalComponent {
   }
 
   rejeitarPedido() {
-    const motivo = prompt('Por favor, insira o motivo da rejeição:');
-    if (motivo) {
-      this.logHistory('REJEITADO');
-      this.order.status = 'REJEITADO';
-      alert('Serviço Rejeitado');
-      this.close.emit(); // Redireciona para RF003
+    let motivo: string | null = '';
+
+    // Continua solicitando o motivo enquanto estiver vazio ou nulo
+    while (!motivo) {
+      motivo = prompt('Por favor, insira o motivo da rejeição:');
+      if (motivo === null) {
+        return;
+      }
+      motivo = motivo.trim();
+      if (!motivo) {
+        alert('O motivo da rejeição é obrigatório.');
+      }
     }
+
+    // Armazena o motivo da rejeição
+    this.order.rejectionReason = motivo;
+    this.logHistory('REJEITADO');
+    this.order.status = 'REJEITADO';
+    alert('Serviço Rejeitado');
+    this.close.emit();
   }
 
   resgatarPedido() {

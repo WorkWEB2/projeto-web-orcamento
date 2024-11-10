@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { OrdersService } from '../../services/orders.service';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-solicitar-orcamento-table',
@@ -17,7 +18,7 @@ export class SolicitarOrcamentoTableComponent implements OnInit {
   categoriaEquipamento: string = '';
   descricaoDefeito: string = '';
 
-  constructor(private ordersService: OrdersService, private router:Router) {}
+  constructor(private ordersService: OrdersService, private router: Router) {}
 
   ngOnInit(): void {
     this.categorias = [
@@ -32,17 +33,20 @@ export class SolicitarOrcamentoTableComponent implements OnInit {
   onSubmit(): void {
     console.log('Solicitando orçamento...');
     const statusOptions = ['ABERTA', 'ORÇADO'];
-    const randomStatus = statusOptions[Math.floor(Math.random() * statusOptions.length)];
+    const randomStatus =
+      statusOptions[Math.floor(Math.random() * statusOptions.length)];
 
     const solicitacaoOrcamento = {
+      clientName: 'Cliente',
       item: this.descricaoEquipamento,
-      date: new Date().toLocaleString(),
-      value: 50,
+      date: new Date(),
+      value: null,
       status: randomStatus,
       description: this.descricaoDefeito,
       categoriaEquipamento: this.categoriaEquipamento,
-      responsible: 'João Silva',
-      history: [{ date: '20/Mar/2023, 20:00', status: randomStatus }]
+      responsible: null,
+      history: [{ date: new Date(), status: randomStatus }],
+      id: uuidv4(),
     };
 
     this.ordersService.addOrder(solicitacaoOrcamento);

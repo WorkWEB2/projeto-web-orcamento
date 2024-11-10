@@ -5,6 +5,11 @@
 
   <form class="adminBudgetForm__form">
     <div class="adminBudgetForm__formGroup">
+      <label for="client-name" class="adminBudgetForm__label">Nome do Cliente</label>
+      <input id="client-name" class="adminBudgetForm__input" [(ngModel)]="clientName" name="clientName" disabled />
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
       <label for="descricao-equipamento" class="adminBudgetForm__label">Descrição do equipamento</label>
       <textarea id="descricao-equipamento" class="adminBudgetForm__textarea" rows="4" [(ngModel)]="descricaoEquipamento"
         name="descricaoEquipamento" disabled></textarea>
@@ -13,7 +18,7 @@
     <div class="adminBudgetForm__formGroup">
       <label for="categoria-equipamento" class="adminBudgetForm__label">Categoria do equipamento</label>
       <select id="categoria-equipamento" class="adminBudgetForm__select" [(ngModel)]="categoriaEquipamento"
-        name="categoriaEquipamento" disabled>
+        name="categoriaEquipamento">
         <option value="" disabled>Selecione uma categoria</option>
         <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
       </select>
@@ -36,10 +41,27 @@
 
     <div class="adminBudgetForm__formGroup" id="teste">
       <label for="valor-orcamento" class="adminBudgetForm__label">Valor do orçamento</label>
-      <input id="valor-orcamento" type="text" class="adminBudgetForm__input" [(ngModel)]="valorOrcamento"
-        name="valorOrcamento">
+      <input id="valor-orcamento" type="number" min="0" placeholder="R$" class="adminBudgetForm__input"
+        [(ngModel)]="valorOrcamento" name="valorOrcamento" />
     </div>
 
-    <button type="button" class="adminBudgetForm__submitButton" [routerLink]="['/admin/home']">Salvar orçamento</button>
+    <button type="button" class="adminBudgetForm__submitButton" (click)="salvarOrcamento()">
+      Salvar orçamento
+    </button>
   </form>
+
+  <!-- Seção de Histórico do Pedido -->
+  <div class="adminBudgetForm__progress" *ngIf="order && order.history && order.history.length">
+    <h2 class="adminBudgetForm__subtitle">Progresso do pedido</h2>
+    <div class="adminBudgetForm__statusFlow">
+      <ng-container *ngFor="let log of order.history">
+        <div class="adminBudgetForm__historic">
+          <span [ngClass]="getStatusClass(log.status)">{{ log.status }}</span>
+          <p>{{ log.date | date: 'dd/MM/yyyy, HH:mm' }}</p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+
 </div>

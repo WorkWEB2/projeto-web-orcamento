@@ -11,15 +11,16 @@
       </div>
       <div class="orderModal__tableRown">
         <p class="orderModal__label">Data/Hora:</p>
-        <p class="orderModal__value"> {{ order.date }}</p>
+        <p class="orderModal__value"> {{ order.date | date: 'dd/MM/yyyy, HH:mm' }}</p>
       </div>
       <div class="orderModal__tableRown">
         <p class="orderModal__label">Responsável pelo serviço:</p>
-        <p class="orderModal__value"> {{ order.responsible }}</p>
+        <p class="orderModal__value"> {{ order.responsible !== null ? order.responsible : "Aguardando responsável" }}
+        </p>
       </div>
       <div class="orderModal__tableRown">
         <p class="orderModal__label">Valor:</p>
-        <p class="orderModal__value">R$ {{ order.value }}</p>
+        <p class="orderModal__value">{{ order.value !== null ? "R$ " + order.value : 'Aguardando orçamento' }}</p>
       </div>
     </div>
 
@@ -29,7 +30,7 @@
         <ng-container *ngFor="let log of order.history">
           <div class="orderModal__historic">
             <span [class]="getStatusClass(log.status)">{{ log.status }}</span>
-            <p>{{ log.date }}</p>
+            <p>{{ log.date | date: 'dd/MM/yyyy, HH:mm' }}</p>
           </div>
         </ng-container>
       </div>
