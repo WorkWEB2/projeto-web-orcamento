@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 export class AdminAdicionarCategoriaComponent implements OnInit {
   categorias: Array<{ nome: string }> = [];
   novaCategoria: string = '';
+  categoriaEmEdicao: { nome: string } | null = null;
 
   constructor() {}
 
@@ -26,12 +27,29 @@ export class AdminAdicionarCategoriaComponent implements OnInit {
 
   addCategoria(): void {
     if (this.novaCategoria.trim()) {
-      this.categorias.push({ nome: this.novaCategoria });
+      if (this.categoriaEmEdicao) {
+        // Atualizar categoria em edição
+        this.categoriaEmEdicao.nome = this.novaCategoria;
+        this.categoriaEmEdicao = null; // Limpar a edição
+      } else {
+        // Adicionar nova categoria
+        this.categorias.push({ nome: this.novaCategoria });
+      }
       this.novaCategoria = '';
     }
   }
 
   deleteCategoria(categoria: { nome: string }): void {
     this.categorias = this.categorias.filter((c) => c !== categoria);
+  }
+
+  editCategoria(categoria: { nome: string }): void {
+    this.categoriaEmEdicao = categoria;
+    this.novaCategoria = categoria.nome; // Definir o valor do campo de entrada para edição
+  }
+
+  cancelEdit(): void {
+    this.categoriaEmEdicao = null;
+    this.novaCategoria = '';
   }
 }

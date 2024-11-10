@@ -18,11 +18,11 @@ export class AdminReceitasTableComponent implements OnInit {
   filtroCategoria: string = '';
   dataInicial: string = '';
   dataFinal: string = '';
+  historicoAcoes: Array<string> = []; // Armazena o histórico de ações
 
   constructor() {}
 
   ngOnInit(): void {
-    // Mock de dados de receitas
     this.receitas = [
       {
         servico: 'Conserto de TV',
@@ -80,44 +80,45 @@ export class AdminReceitasTableComponent implements OnInit {
     });
   }
 
-  formatarData(event: any, field: string) {
-    const value = event.target.value;
-
-    // Add your date formatting logic here
-
-    if (field === 'dataInicial') {
-      this.dataInicial = value;
-    } else if (field === 'dataFinal') {
-      this.dataFinal = value;
-    }
+  // Nova função para agrupar receitas por dia
+  agruparReceitasPorDia(receitas: Array<any>): { [key: string]: number } {
+    const agrupadas: { [key: string]: number } = {};
+    
+    receitas.forEach(receita => {
+      const data = new Date(receita.dataHora).toLocaleDateString('pt-BR'); // Formato: dd/MM/yyyy
+      if (!agrupadas[data]) {
+        agrupadas[data] = 0;
+      }
+      agrupadas[data] += receita.receita;
+    });
+    
+    return agrupadas;
   }
 
-  gerarPDF(): void {
+  gerarPDFReceitas(): void {
+    const receitasAgrupadas = this.agruparReceitasPorDia(this.receitasFiltradas);
+
     const doc = new jsPDF();
     doc.text('Relatório de Receitas', 14, 10);
+    
+    // Prepare the data for the table
+    const body = Object.entries(receitasAgrupadas).map(([data, total]) => [
+      data,
+      `R$ ${total.toFixed(2)}`,
+    ]);
+
     autoTable(doc, {
-      head: [['Serviço', 'Categoria', 'Data/Hora', 'Receita']],
-      body: this.receitasFiltradas.map((r) => [
-        r.servico,
-        r.categoria,
-        new Date(r.dataHora).toLocaleDateString('pt-BR') +
-          ', ' +
-          new Date(r.dataHora).toLocaleTimeString('pt-BR', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false,
-          }),
-        `R$ ${r.receita.toFixed(2)}`,
-      ]),
+      head: [['Data', 'Receita Total']],
+      body: body,
     });
 
-    // Calcula a soma das receitas filtradas
-    const totalReceita = this.receitasFiltradas.reduce(
-      (sum, r) => sum + r.receita,
+    // Calcula a soma total das receitas
+    const totalReceita = Object.values(receitasAgrupadas).reduce(
+      (sum, receita) => sum + receita,
       0
     );
 
-    // Adiciona a soma das receitas ao PDF
+    // Adiciona a soma total ao PDF
     doc.text(
       `Valor Total: R$ ${totalReceita.toFixed(2)}`,
       14,
@@ -125,5 +126,49 @@ export class AdminReceitasTableComponent implements OnInit {
     );
 
     doc.save('relatorio_receitas.pdf');
+
+    // Registra a ação no histórico
+    this.registrarAcao('PDF de receitas gerado.');
+  }
+
+  gerarPDFReceitasPorCategoria(): void {
+    const receitasPorCategoria: { [key: string]: number } = {};
+
+    this.receitas.forEach((receita) => {
+      if (!receitasPorCategoria[receita.categoria]) {
+        receitasPorCategoria[receita.categoria] = 0;
+      }
+      receitasPorCategoria[receita.categoria] += receita.receita;
+    });
+
+    const doc = new jsPDF();
+    doc.text('Relatório de Receitas por Categoria', 14, 10);
+    autoTable(doc, {
+      head: [['Categoria', 'Receita Total']],
+      body: Object.entries(receitasPorCategoria).map(([categoria, receita]) => [
+        categoria,
+        `R$ ${receita.toFixed(2)}`,
+      ]),
+    });
+
+    const totalReceita = Object.values(receitasPorCategoria).reduce(
+      (sum, receita) => sum + receita,
+      0
+    );
+
+    doc.text(
+      `Valor Total: R$ ${totalReceita.toFixed(2)}`,
+      14,
+      (doc as any).autoTable.previous.finalY + 10
+    );
+
+    doc.save('relatorio_receitas_por_categoria.pdf');
+
+    // Registra a ação no histórico
+    this.registrarAcao('PDF de receitas por categoria gerado.');
+  }
+
+  registrarAcao(acao: string): void {
+    this.historicoAcoes.push(`${new Date().toLocaleString('pt-BR')}: ${acao}`);
   }
 }

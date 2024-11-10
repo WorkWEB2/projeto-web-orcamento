@@ -1,8 +1,7 @@
-// orders-table.component.ts
-
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
+import { OrdersService } from '../../services/orders.service';
 
 @Component({
   selector: 'app-orders-table',
@@ -10,34 +9,20 @@ import { OrderModalComponent } from '../order-modal/order-modal.component';
   imports: [CommonModule, OrderModalComponent],
   templateUrl: './orders-table.component.html',
   styleUrls: ['./orders-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersTableComponent implements OnInit {
   orders: Array<any> = [];
   selectedOrder: any = null;
 
-  constructor() {}
+  constructor(private ordersService: OrdersService) {}
 
   ngOnInit(): void {
-    // Dados mockados simulando consumo do backend
-    this.orders = [
-      {
-        item: 'Camiseta Preta Masculina',
-        date: '20/Mar/2023, 20:00',
-        value: 75.0,
-        status: 'ABERTO',
-        description: 'Descrição detalhada do produto...',
-        responsible: 'João Silva',
-      },
-      {
-        item: 'Camiseta Branca Masculina',
-        date: '21/Mar/2023, 21:00',
-        value: 80.0,
-        status: 'ORÇADO',
-        description: 'Uma camiseta branca para homens',
-        responsible: 'Maria Souza',
-      },
-      // mais pedidos aqui...
-    ];
+    console.log('OrdersTableComponent initialized');
+    this.ordersService.orders$.subscribe(orders => {
+      this.orders = orders;
+    });
+    console.log('Orders:', this.orders);
   }
 
   openOrderModal(order: any): void {

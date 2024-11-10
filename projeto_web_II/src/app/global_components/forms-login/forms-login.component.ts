@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-forms-login',
@@ -14,7 +14,7 @@ export class FormsLoginComponent implements OnInit {
 
   public loginForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private router:Router) { }
 
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
@@ -27,9 +27,11 @@ export class FormsLoginComponent implements OnInit {
     if (this.loginForm.valid) {
       const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
-      console.log('Email:', email);
-      console.log('Password:', password);
-      // Lógica para autenticação aqui
+      if (email.endsWith('@admin.com')) { 
+        this.router.navigate(['/admin/home']); 
+      } else { 
+        this.router.navigate(['/home']);
+      }
     } else {
       // Verifica se o e-mail ou a senha estão vazios
       if (this.loginForm.get('email')?.invalid && this.loginForm.get('email')?.touched) {

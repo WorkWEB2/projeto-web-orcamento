@@ -6,13 +6,16 @@
     <thead class="categoriasTable__tableHeader">
       <tr>
         <th>Nome</th>
-        <th></th>
+        <th>Ações</th>
       </tr>
     </thead>
     <tbody class="categoriasTable__tableBody">
-      <tr class="categoriasTable__tableRow" *ngFor="let categoria of categorias">
+      <tr *ngFor="let categoria of categorias">
         <td>{{ categoria.nome }}</td>
         <td class="categoriasTable__actions">
+          <button class="categoriasTable__editButton" (click)="editCategoria(categoria)">
+            <img src="/assets/pen.svg" alt="Editar Categoria">
+          </button>
           <button class="categoriasTable__deleteButton" (click)="deleteCategoria(categoria)">
             <img src="/assets/delete.svg" alt="Excluir Categoria">
           </button>
@@ -20,10 +23,12 @@
       </tr>
     </tbody>
   </table>
-</div>
-<div class="categoriasTable__inputArea">
-  <input [(ngModel)]="novaCategoria" type="text" placeholder="Nova categoria">
-  <button class="categoriasTable__addButton" (click)="addCategoria()">
-    <img src="/assets/plus.svg" alt="Adicionar Categoria">
-  </button>
+  <div class="categoriasTable__inputArea">
+    <input [(ngModel)]="novaCategoria" type="text" placeholder="Nova categoria">
+    <button class="categoriasTable__addButton" (click)="addCategoria()">
+      <img src="/assets/plus.svg" alt="Adicionar Categoria">
+    </button>
+    <button class="categoriasTable__cancelButton" *ngIf="categoriaEmEdicao" (click)="cancelEdit()">Cancelar
+      Edição</button>
+  </div>
 </div>

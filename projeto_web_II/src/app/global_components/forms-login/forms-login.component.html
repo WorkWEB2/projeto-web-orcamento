@@ -15,7 +15,7 @@
     </p>
   </div>
 
-  <button [routerLink]="['/home']" class="loginButton" type="submit" [disabled]="loginForm.invalid">Login</button>
+  <button class="loginButton" type="submit" [disabled]="loginForm.invalid" (click)="submitForm()">Login</button>
 
   <a class="registerUser" href="/cadastro">Cadastrar Novo Usuário</a>
 </form>

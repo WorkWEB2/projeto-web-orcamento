@@ -13,11 +13,11 @@
       <tr *ngFor="let funcionario of funcionarios">
         <td>{{ funcionario.nome }}</td>
         <td class="funcionariosTable__actions">
-          <button class="funcionariosTable__deleteButton" (click)="deleteFuncionario(funcionario)">
-            <img src="/assets/delete.svg" alt="Excluir Funcionário">
-          </button>
           <button class="funcionariosTable__viewButton" (click)="openModal(funcionario)">
             <img src="/assets/pen.svg" alt="Ver Detalhes">
+          </button>
+          <button class="funcionariosTable__deleteButton" (click)="deleteFuncionario(funcionario)">
+            <img src="/assets/delete.svg" alt="Excluir Funcionário">
           </button>
         </td>
       </tr>

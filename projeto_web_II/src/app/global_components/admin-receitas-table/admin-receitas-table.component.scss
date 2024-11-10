@@ -57,7 +57,6 @@
 
   &__generatePdfButton {
     display: block;
-    margin: 1rem auto;
     padding: 0.75rem 2rem;
     background-color: var(--dark-gray);
     color: var(--white);
@@ -67,5 +66,13 @@
     &:hover {
       background-color: var(--medium-gray);
     }
+  }
+
+  &__buttonsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    padding-top: 2rem;
   }
 }
