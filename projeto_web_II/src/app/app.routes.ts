@@ -11,8 +11,15 @@ import { CadastrarCategoriaComponent } from './modules/cadastrar-categoria/cadas
 import { ReceitasComponent } from './modules/receitas/receitas.component';
 
 export const routes: Routes = [
+
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+    },
+    
+  {
+    path: 'login',
     component: LoginComponent,
   },
   {

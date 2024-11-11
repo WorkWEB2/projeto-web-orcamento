@@ -1,21 +1,28 @@
-<form [formGroup]="loginForm">
+<form #formLogin="ngForm">
   <div class="emailContainer">
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email" formControlName="email" placeholder="example@gmail.com" autocomplete="email">
-    <p *ngIf="loginForm.get('email')?.errors">
-      Digite um e-mail válido
-    </p>
+    <label for="usuario">Email</label>
+    <input type="text" id="usuario" name="usuario" [(ngModel)]="login.login" #usuario="ngModel" 
+    placeholder="example@gmail.com" autocomplete="email" required>
+    <div *ngIf="usuario.errors && (usuario.dirty || usuario.touched)">
+      <div [hidden]="!usuario.errors['required']"> 
+          Digite o usuário
+      </div>
+    </div>
   </div>
 
   <div class="passwordContainer">
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" formControlName="password" placeholder="XXXXXXXXX">
-    <p *ngIf="loginForm.get('password')?.errors">
-      Digite uma senha válida
-    </p>
+    <input type="password" id="password" name="password" [(ngModel)]="login.senha" #senha="ngModel"  
+    placeholder="XXXXXXXXX" required="">
+    <div *ngIf="senha.errors && (senha.dirty || senha.touched)">
+      <div [hidden]="!senha.errors['required']"> 
+          Digite a senha.
+      </div>
+    </div>
   </div>
 
-  <button class="loginButton" type="submit" [disabled]="loginForm.invalid" (click)="submitForm()">Login</button>
+  <button class="loginButton" type="submit" [disabled]="!formLogin.form.valid"
+   (click)="logar()">Login</button>
 
-  <a class="registerUser" href="/cadastro">Cadastrar Novo Usuário</a>
+  <a class="registerUser" [routerLink]="['/cadastro']">Cadastrar Novo Usuário</a>
 </form>
