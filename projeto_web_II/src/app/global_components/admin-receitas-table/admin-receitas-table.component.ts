@@ -54,6 +54,12 @@ export class AdminReceitasTableComponent implements OnInit {
         dataHora: '2023-10-20T16:00',
         receita: 400.0,
       },
+      {
+        servico: 'Manutenção de tela de TV',
+        categoria: 'Televisores',	
+        dataHora: '2023-10-15T09:45',
+        receita: 550.0,
+      },
     ];
 
     // Obtém categorias únicas
