@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Usuario, Login } from '../shared/models';
+import { Route, Router } from '@angular/router';
 
 const LS_CHAVE: string = "usuarioLogado";
 
@@ -10,9 +11,9 @@ const LS_CHAVE: string = "usuarioLogado";
 
 export class LoginService {
 
-  constructor() { }
+  constructor(private router:Router) { }
 
-  public getusuarioLogado(): Usuario | null {
+  public get usuarioLogado(): Usuario | null {
     let usu = localStorage[LS_CHAVE];
     return (usu ? JSON.parse(localStorage[LS_CHAVE]) : null);
   }
@@ -23,6 +24,7 @@ export class LoginService {
 
   logout() {
     delete localStorage[LS_CHAVE];
+    this.router.navigate(['/login']);
   }
 
   login(login: Login): Observable<Usuario | null> {
@@ -50,5 +52,10 @@ export class LoginService {
     } else {
       return of(null);
     }
+  }
+
+  // Método para registrar um novo usuário
+  registrarUsuario(usuario: Usuario): void {
+    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
   }
 }

@@ -1,4 +1,4 @@
-<form #formLogin="ngForm">
+<form #formLogin="ngForm" (ngSubmit)="logar()">
   <div class="emailContainer">
     <label for="usuario">Email</label>
     <input type="text" id="usuario" name="usuario" [(ngModel)]="login.login" #usuario="ngModel" 
@@ -13,7 +13,7 @@
   <div class="passwordContainer">
     <label for="password">Password</label>
     <input type="password" id="password" name="password" [(ngModel)]="login.senha" #senha="ngModel"  
-    placeholder="XXXXXXXXX" required="">
+    placeholder="XXXXXXXXX" required>
     <div *ngIf="senha.errors && (senha.dirty || senha.touched)">
       <div [hidden]="!senha.errors['required']"> 
           Digite a senha.
@@ -21,8 +21,7 @@
     </div>
   </div>
 
-  <button class="loginButton" type="submit" [disabled]="!formLogin.form.valid"
-   (click)="logar()">Login</button>
+  <button class="loginButton" type="submit" [disabled]="!formLogin.form.valid">Login</button>
 
   <a class="registerUser" [routerLink]="['/cadastro']">Cadastrar Novo Usuário</a>
 </form>

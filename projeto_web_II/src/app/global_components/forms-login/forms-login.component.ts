@@ -36,19 +36,23 @@ export class FormsLoginComponent implements OnInit {
     }
 
     logar(): void {
-        this.loading = true;
-        if (this.formLogin.form.valid) {
+      console.log(this.login);  // Isso está funcionando, então o método é chamado
+      this.loading = true;
+      if (this.formLogin.form.valid) {
           this.loginService.login(this.login).subscribe((usu) => {
-            if (usu != null) {
-              this.loginService.usuarioLogado = usu;
-              this.loading = false;
-              this.router.navigate( ["/home"] ); 
-            }
-          else {
-            this.message = "Usuário/Senha inválidos.";
-          }
-        });
-        }
-        this.loading = false;
+              console.log(usu);
+              if (usu != null) {
+                  this.loginService.usuarioLogado = usu;
+                  this.loading = false;
+                  this.router.navigate(['/home']); // Navegar para a rota correta
+              } else {
+                  this.loading = false;  // Termina o loading, caso não tenha sucesso
+                  this.message = "Usuário/Senha inválidos.";  // Mensagem de erro
+              }
+          });
+      } else {
+          this.loading = false;
       }
+  }
+  
 }

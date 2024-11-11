@@ -3,7 +3,7 @@
     <img loading='lazy' class='imgEmphasis' src='/assets/buttonReturn.svg' alt='' srcset='' />
   </a>
 
-  <form action="" class="cadastro__form" [formGroup]="cadastroForm">
+  <form class="cadastro__form" [formGroup]="cadastroForm" (ngSubmit)="cadastrar()">
     <div class="cadastro__inputContainer">
       <label for="nome" class="cadastro__label">Nome Completo</label>
       <input type="text" id="nome" class="cadastro__input" formControlName="nome" />
@@ -27,7 +27,7 @@
     <div class="cadastro__inputContainer">
       <label for="cep" class="cadastro__label">CEP</label>
       <input type="text" id="cep" class="cadastro__input" formControlName="cep" (change)="onCepChange()"
-      [value]="cadastroForm.get('cep')?.value | cepMask" numerico />
+      [value]="cadastroForm.get('cep')?.value | cepMask"/>
     </div>
 
     <div class="cadastro__inputContainer">
@@ -55,6 +55,12 @@
       <input type="tel" id="telefone" class="cadastro__input" formControlName="telefone" [value]="cadastroForm.get('telefone')?.value | telefoneMask" />
     </div>
 
-    <button class="cadastro__buttonSubmit" [routerLink]="['/']">Cadastrar</button>
+    <div class="cadastro__inputContainer">
+      <label for="senha" class="cadastro__label">Senha</label>
+      <input type="password" id="senha" class="cadastro__input" formControlName="senha" />
+    </div>   
+
+    <button class="cadastro__buttonSubmit">Cadastrar</button>
+
   </form>
 </div>
