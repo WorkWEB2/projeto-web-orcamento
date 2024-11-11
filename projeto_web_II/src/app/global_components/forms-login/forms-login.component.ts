@@ -24,7 +24,7 @@ export class FormsLoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void{
-      if(this.loginService.usuarioLogado) {
+      /*if(this.loginService.usuarioLogado) {
         this.router.navigate( ["/home"] );
       }
       else{
@@ -32,7 +32,7 @@ export class FormsLoginComponent implements OnInit {
           params=> {
             this.message= params['error'];
         });
-      }
+      }*/
     }
 
     logar(): void {
@@ -42,9 +42,16 @@ export class FormsLoginComponent implements OnInit {
           this.loginService.login(this.login).subscribe((usu) => {
               console.log(usu);
               if (usu != null) {
-                  this.loginService.usuarioLogado = usu;
-                  this.loading = false;
-                  this.router.navigate(['/home']); // Navegar para a rota correta
+                  if(usu.perfil === "ADMIN") {
+                      this.loginService.usuarioLogado = usu;
+                      this.loading = false;
+                      this.router.navigate(['/admin/home']);
+                  }
+                  else {
+                      this.loginService.usuarioLogado = usu;
+                      this.loading = false;
+                      this.router.navigate(['/home']);
+                  }
               } else {
                   this.loading = false;  // Termina o loading, caso não tenha sucesso
                   this.message = "Usuário/Senha inválidos.";  // Mensagem de erro
