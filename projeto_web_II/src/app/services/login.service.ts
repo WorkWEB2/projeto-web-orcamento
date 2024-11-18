@@ -51,6 +51,7 @@ export class LoginService {
       return of(usu);
     } else {
       return of(null);
+      alert("Usuário ou senha inválidos");
     }
   }
 
