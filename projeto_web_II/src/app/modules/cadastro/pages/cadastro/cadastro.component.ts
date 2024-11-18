@@ -80,8 +80,8 @@ export class CadastroComponent implements OnInit {
       this.loginService.registrarUsuario(novoUsuario);
       console.log('Usuário registrado:', novoUsuario);  // Verificar no console
       this.router.navigate(['/login']);
-    } else {
-      alert('Por favor, preencha todos os campos corretamente.');
+    } else if(this.cadastroForm.invalid) {
+      alert('Por favor, preencha todos os campos obrigatórios!');
     }
   }
   
