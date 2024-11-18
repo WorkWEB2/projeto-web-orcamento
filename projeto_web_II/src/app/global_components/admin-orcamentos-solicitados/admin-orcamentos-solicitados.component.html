@@ -1,3 +1,72 @@
+<!-- <div class="adminBudgetForm">
+  <div class="adminBudgetForm__header">
+    <h1 class="adminBudgetForm__title">Orçamentos solicitados</h1>
+  </div>
+
+  <form class="adminBudgetForm__form">
+    <div class="adminBudgetForm__formGroup">
+      <label for="client-name" class="adminBudgetForm__label">Nome do Cliente</label>
+      <input id="client-name" class="adminBudgetForm__input" [(ngModel)]="clientName" name="clientName" disabled />
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="descricao-equipamento" class="adminBudgetForm__label">Descrição do equipamento</label>
+      <textarea id="descricao-equipamento" class="adminBudgetForm__textarea" rows="4" [(ngModel)]="descricaoEquipamento"
+        name="descricaoEquipamento" disabled></textarea>
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="categoria-equipamento" class="adminBudgetForm__label">Categoria do equipamento</label>
+      <select id="categoria-equipamento" class="adminBudgetForm__select" [(ngModel)]="categoriaEquipamento"
+        name="categoriaEquipamento">
+        <option value="" disabled>Selecione uma categoria</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+      </select>
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="descricao-defeito" class="adminBudgetForm__label">Descrição do defeito</label>
+      <textarea id="descricao-defeito" class="adminBudgetForm__textarea" rows="4" [(ngModel)]="descricaoDefeito"
+        name="descricaoDefeito" disabled></textarea>
+    </div>
+
+    <div class="adminBudgetForm__formGroup">
+      <label for="responsavel" class="adminBudgetForm__label">Responsável pelo serviço</label>
+      <select id="responsavel" class="adminBudgetForm__select" [(ngModel)]="responsavelSelecionado"
+        name="responsavelSelecionado">
+        <option value="" disabled selected>Selecione um responsável</option>
+        <option *ngFor="let responsavel of responsaveis" [value]="responsavel">{{ responsavel }}</option>
+      </select>
+    </div>
+
+    <div class="adminBudgetForm__formGroup" id="teste">
+      <label for="valor-orcamento" class="adminBudgetForm__label">Valor do orçamento</label>
+      <input id="valor-orcamento" type="number" min="0" placeholder="R$" class="adminBudgetForm__input"
+        [(ngModel)]="valorOrcamento" name="valorOrcamento" />
+    </div>
+
+    <button type="button" class="adminBudgetForm__submitButton" (click)="salvarOrcamento()">
+      Salvar orçamento
+    </button>
+
+  </form>
+
+
+  <div class="adminBudgetForm__progress" *ngIf="order && order.history && order.history.length">
+    <h2 class="adminBudgetForm__subtitle">Progresso do pedido</h2>
+    <div class="adminBudgetForm__statusFlow">
+      <ng-container *ngFor="let log of order.history">
+        <div class="adminBudgetForm__historic">
+          <span [ngClass]="getStatusClass(log.status)">{{ log.status }}</span>
+          <p>{{ log.date | date: 'dd/MM/yyyy, HH:mm' }}</p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+
+</div> -->
+
 <div class="adminBudgetForm">
   <div class="adminBudgetForm__header">
     <h1 class="adminBudgetForm__title">Orçamentos solicitados</h1>
@@ -48,6 +117,25 @@
     <button type="button" class="adminBudgetForm__submitButton" (click)="salvarOrcamento()">
       Salvar orçamento
     </button>
+
+    <!-- Botões de ação baseados no estado do pedido -->
+    <div class="adminBudgetForm__actionButtons">
+      <button *ngIf="order.state === 'ABERTA'" type="button" class="adminBudgetForm__actionButton"
+        (click)="efetuarOrcamento()">
+        Efetuar Orçamento
+      </button>
+
+      <button *ngIf="order.state === 'APROVADA' || order.state === 'REDIRECIONADA'" type="button"
+        class="adminBudgetForm__actionButton" (click)="efetuarManutencao()">
+        Efetuar Manutenção
+      </button>
+
+      <button *ngIf="order.state === 'PAGA'" type="button" class="adminBudgetForm__actionButton"
+        (click)="finalizarSolicitacao()">
+        Finalizar Solicitação
+      </button>
+    </div>
+
   </form>
 
   <!-- Seção de Histórico do Pedido -->
@@ -62,6 +150,4 @@
       </ng-container>
     </div>
   </div>
-
-
 </div>
