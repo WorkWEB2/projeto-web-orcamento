@@ -54,6 +54,11 @@
     }
   }
 
+  &__status--aberta {
+    text-transform: uppercase;
+    font-weight: bold;
+  }
+
   &__buttonOrder {
     cursor: pointer;
     display: flex;

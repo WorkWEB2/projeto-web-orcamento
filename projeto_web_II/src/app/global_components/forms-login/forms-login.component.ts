@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormBuilder, FormsModule, NgForm, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router, RouterModule,ActivatedRoute } from '@angular/router';
+import { LoginService } from '../../services/login.service';
+import { Login } from '../../shared/models';
 
 @Component({
   selector: 'app-forms-login',
@@ -11,38 +13,53 @@ import { Router, RouterModule } from '@angular/router';
   styleUrls: ['./forms-login.component.scss']
 })
 export class FormsLoginComponent implements OnInit {
+  
+  @ViewChild('formLogin') formLogin! : NgForm;
+  login: Login = new Login();
+  loading: boolean= false;
+  message!: string;
 
-  public loginForm!: FormGroup;
+  constructor(private formBuilder: FormBuilder, private router:Router,
+    private loginService: LoginService, private route: ActivatedRoute
+  ) { }
 
-  constructor(private formBuilder: FormBuilder, private router:Router) { }
-
-  ngOnInit(): void {
-    this.loginForm = this.formBuilder.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required],
-    });
-  }
-
-  submitForm() {
-    if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
-      if (email.endsWith('@admin.com')) { 
-        this.router.navigate(['/admin/home']); 
-      } else { 
-        this.router.navigate(['/home']);
+  ngOnInit(): void{
+      /*if(this.loginService.usuarioLogado) {
+        this.router.navigate( ["/home"] );
       }
-    } else {
-      // Verifica se o e-mail ou a senha estão vazios
-      if (this.loginForm.get('email')?.invalid && this.loginForm.get('email')?.touched) {
-        alert('Por favor, preencha o e-mail.');
-      }
-      if (this.loginForm.get('password')?.invalid && this.loginForm.get('password')?.touched) {
-        alert('Por favor, preencha a senha.');
-      }
-      
-      // Marcar todos os campos como tocados para exibir mensagens de erro
-      this.loginForm.markAllAsTouched();
+      else{
+        this.route.queryParams.subscribe(
+          params=> {
+            this.message= params['error'];
+        });
+      }*/
     }
+
+    logar(): void {
+      console.log(this.login);  // Isso está funcionando, então o método é chamado
+      this.loading = true;
+      if (this.formLogin.form.valid) {
+          this.loginService.login(this.login).subscribe((usu) => {
+              console.log(usu);
+              if (usu != null) {
+                  if(usu.perfil === "ADMIN") {
+                      this.loginService.usuarioLogado = usu;
+                      this.loading = false;
+                      this.router.navigate(['/admin/home']);
+                  }
+                  else {
+                      this.loginService.usuarioLogado = usu;
+                      this.loading = false;
+                      this.router.navigate(['/home']);
+                  }
+              } else {
+                  this.loading = false;  // Termina o loading, caso não tenha sucesso
+                  this.message = "Usuário/Senha inválidos.";  // Mensagem de erro
+              }
+          });
+      } else {
+          this.loading = false;
+      }
   }
+  
 }

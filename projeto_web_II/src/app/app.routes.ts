@@ -9,10 +9,18 @@ import { OrcamentosSolicitadosComponent } from './modules/orcamentos-solicitados
 import { CadastrarFuncionarioComponent } from './modules/cadastrar-funcionario/cadastrar-funcionario.component';
 import { CadastrarCategoriaComponent } from './modules/cadastrar-categoria/cadastrar-categoria.component';
 import { ReceitasComponent } from './modules/receitas/receitas.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
+
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+    },
+
+  {
+    path: 'login',
     component: LoginComponent,
   },
   {
@@ -23,35 +31,56 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    canActivate: [authGuard],
+    data: { role: 'CLIENTE' }
   },
   {
     path: 'solicitar-orcamento',
     component: SolicitarOrcamentoComponent,
+    canActivate: [authGuard],
+    data: { role: 'CLIENTE' }
   },
   {
     path: 'mostrar-orcamentos',
     component: MostrarOrcamentosComponent,
+    canActivate: [authGuard],
+    data: { role: 'CLIENTE' }
   },
   // Rota referente a página de admin
   {
     path: 'admin/home',
     component: HomeAdminComponent,
+    canActivate: [authGuard],
+    data: { role: 'ADMIN' }
   },
   {
     path: 'admin/orcamentos-solicitados',
     component: OrcamentosSolicitadosComponent,
+    canActivate: [authGuard],
+    data: { role: 'ADMIN' }
+  },
+  {
+    path: 'admin/orcamentos-solicitados/:id',
+    component: OrcamentosSolicitadosComponent,
+    canActivate: [authGuard],
+    data: { role: 'ADMIN' }
   },
   {
     path: 'admin/cadastrar-funcionario',
     component: CadastrarFuncionarioComponent,
+    canActivate: [authGuard],
+    data: { role: 'ADMIN' }
   },
   {
     path: 'admin/cadastrar-categoria',
     component: CadastrarCategoriaComponent,
+    canActivate: [authGuard],
+    data: { role: 'ADMIN' }
   },
   {
     path: 'admin/receitas',
     component: ReceitasComponent,
+    canActivate: [authGuard],
+    data: { role: 'ADMIN' }
   },
-  
 ];

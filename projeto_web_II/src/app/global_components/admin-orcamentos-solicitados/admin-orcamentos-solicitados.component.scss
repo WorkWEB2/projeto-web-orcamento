@@ -60,6 +60,15 @@
     resize: vertical;
   }
 
+  &__progress {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    padding-bottom: 2rem;
+    padding-inline: 2.5rem;
+  }
+
   &__submitButton {
     align-self: flex-start;
     padding: 0.75rem 1.5rem;
@@ -73,6 +82,75 @@
 
     &:hover {
       background-color: var(--medium-gray);
+    }
+  }
+
+  &__subtitle {
+    font-size: 1.25rem;
+    list-style: 1.5rem;
+    font-weight: bold;
+  }
+
+  &__statusFlow {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    font-size: 0.875rem;
+
+    margin-top: 1rem;
+
+    span {
+      font-weight: bold;
+
+      &.cinza {
+        color: var(--gray);
+      }
+
+      &.marrom {
+        color: var(--brown);
+      }
+
+      &.vermelho {
+        color: var(--red);
+      }
+
+      &.amarelo {
+        color: var(--yellow);
+      }
+
+      &.roxo {
+        color: var(--purple);
+      }
+
+      &.azul {
+        color: var(--blue);
+      }
+
+      &.laranja {
+        color: var(--orange);
+      }
+
+      &.verde {
+        color: var(--green);
+      }
+    }
+  }
+
+  &__historic {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.125rem;
+
+    border-right: 1px solid var(--opacity-gray);
+    padding-inline: 1rem;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      border-right: unset;
     }
   }
 }

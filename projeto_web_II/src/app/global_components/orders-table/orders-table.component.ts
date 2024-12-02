@@ -19,8 +19,15 @@ export class OrdersTableComponent implements OnInit {
 
   ngOnInit(): void {
     console.log('OrdersTableComponent initialized');
-    this.ordersService.orders$.subscribe(orders => {
-      this.orders = orders;
+    this.ordersService.orders$.subscribe((orders) => {
+      this.orders = orders
+        .map((order) => {
+          return {
+            ...order,
+            date: new Date(order.date),
+          };
+        })
+        .sort((a, b) => a.date.getTime() - b.date.getTime());
     });
     console.log('Orders:', this.orders);
   }

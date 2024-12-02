@@ -7,13 +7,18 @@ import { CommonModule } from '@angular/common';
 import { CpfPipe } from '../../../../shared/pipes/cpf-mask.pipe';
 import { TelefonePipe } from '../../../../shared/pipes/telefone-mask.pipe';
 import { CepPipe } from '../../../../shared/pipes/cep-mask.pipe';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { NumericoDirective } from '../../../../shared/directives/numerico.directive';
+import { Usuario } from '../../../../shared/models/usuario.model';
+import { LoginService } from '../../../../services/login.service';
 
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, NgxMaskDirective, CpfPipe, TelefonePipe, CepPipe, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, HttpClientModule, NgxMaskDirective, CpfPipe, 
+    TelefonePipe, CepPipe, RouterLink, NumericoDirective
+  ],
   providers: [provideNgxMask({ /* opções de cfg */ })],
   templateUrl: './cadastro.component.html',
   styleUrls: ['./cadastro.component.scss']
@@ -22,7 +27,8 @@ export class CadastroComponent implements OnInit {
 
   public cadastroForm!: FormGroup;
 
-  constructor(private formBuilder: FormBuilder, private apiService: ApiService) { }
+  constructor(private formBuilder: FormBuilder, private apiService: ApiService,
+    private loginService: LoginService, private router: Router) { }
 
   ngOnInit(): void {
     this.cadastroForm = this.formBuilder.group({
@@ -35,7 +41,8 @@ export class CadastroComponent implements OnInit {
       endereco: [''],
       localidade: [''],
       estado: [''],
-      telefone: ['', Validators.required]
+      telefone: ['', Validators.required],
+      senha: ['', Validators.required]
     });
   }
 
@@ -51,4 +58,32 @@ export class CadastroComponent implements OnInit {
       });
     }
   }
+
+  cadastrar() {
+    if (this.cadastroForm.valid) {
+      const formValues = this.cadastroForm.value;
+      const novoUsuario = new Usuario(
+        formValues.nome,
+        formValues.cpf,
+        formValues.email,
+        formValues.emailConfirmed,
+        formValues.cep,
+        formValues.numero,
+        formValues.endereco,
+        formValues.localidade,
+        formValues.estado,
+        formValues.telefone,
+        "CLIENTE",  // Perfil padrão
+        formValues.senha
+      );
+  
+      this.loginService.registrarUsuario(novoUsuario);
+      console.log('Usuário registrado:', novoUsuario);  // Verificar no console
+      this.router.navigate(['/login']);
+    } else {
+      alert('Por favor, preencha todos os campos corretamente.');
+    }
+  }
+  
+
 }
