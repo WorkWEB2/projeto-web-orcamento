@@ -1,61 +1,60 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Usuario, Login } from '../shared/models';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import * as CryptoJS from 'crypto-js';
 
-const LS_CHAVE: string = "usuarioLogado";
+const LS_CHAVE: string = 'usuarioLogado';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-
 export class LoginService {
-
-  constructor(private router:Router) { }
+  constructor(private router: Router) {}
 
   public get usuarioLogado(): Usuario | null {
-    let usu = localStorage[LS_CHAVE];
-    return (usu ? JSON.parse(localStorage[LS_CHAVE]) : null);
+    let usu = localStorage.getItem(LS_CHAVE);
+    return usu ? JSON.parse(usu) : null;
   }
 
-  public set usuarioLogado(usuario: Usuario) {
-    localStorage[LS_CHAVE] = JSON.stringify(usuario);
-  } 
+  public set usuarioLogado(usuario: Usuario | null) {
+    if (usuario) {
+      localStorage.setItem(LS_CHAVE, JSON.stringify(usuario));
+    } else {
+      localStorage.removeItem(LS_CHAVE);
+    }
+  }
 
   logout() {
-    delete localStorage[LS_CHAVE];
+    this.usuarioLogado = null;
     this.router.navigate(['/login']);
   }
 
   login(login: Login): Observable<Usuario | null> {
-
-    let usu = new Usuario(
-      "",             // nome
-      "",             // cpf
-      login.login,    // email
-      login.login,    // confirmarEmail
-      0,              // cep
-      0,              // numero
-      "",             // endereco
-      "",             // localidade
-      "",             // estado
-      "",             // telefone
-      "CLIENTE",      // perfil
-      login.senha     // senha
-    );
-
-    if (login.login === login.senha) {
-      if (login.login === "admin@admin.com") {
-        usu.perfil = "ADMIN";
-      }
-      return of(usu);
-    } else {
-      return of(null);
+    // Obter usuários do localStorage
+    const usuariosJSON = localStorage.getItem('usuarios');
+    let usuarios: Usuario[] = [];
+    if (usuariosJSON) {
+      usuarios = JSON.parse(usuariosJSON);
     }
-  }
 
-  // Método para registrar um novo usuário
-  registrarUsuario(usuario: Usuario): void {
-    localStorage.setItem('usuarioLogado', JSON.stringify(usuario));
+    // Encontrar o usuário com o e-mail fornecido
+    const usuarioEncontrado = usuarios.find((u) => u.email === login.login);
+
+    if (usuarioEncontrado) {
+      // Hash da senha fornecida com o SALT armazenado
+      const senhaHash = CryptoJS.SHA256(
+        login.senha + usuarioEncontrado.salt
+      ).toString();
+
+      // Comparar o hash da senha fornecida com o hash armazenado
+      if (senhaHash === usuarioEncontrado.senhaHash) {
+        // Senha correta, logar o usuário
+        return of(usuarioEncontrado);
+      }
+    }
+
+    // Usuário não encontrado ou senha incorreta
+    return of(null);
   }
 }
