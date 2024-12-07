@@ -26,6 +26,7 @@ export class OrdersTableComponent implements OnInit {
     this.solicitacaoService.buscarTodas().subscribe(
       (result) => {
         this.orders = [...result];
+        this.cdr.detectChanges();
       },
       (error) => {
         console.error('Erro ao listar funcionários:', error);
