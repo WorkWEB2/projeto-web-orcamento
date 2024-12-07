@@ -22,7 +22,7 @@ export class SolicitacaoService {
                                                                                     descricaoEquipamento : solicitacao.descricaoEquipamento});
     }
     
-    efeturarOrcamento(solicitacao: Solicitacao){
+    efetuarOrcamento(solicitacao: Solicitacao){
       return this.http.post<Solicitacao>(`${this.url}/solicitacao/efetuarOrcamento/${solicitacao.id}`,  {id:solicitacao.id , 
                                                                                     valorOrcamento : solicitacao.orcamento?.valorOrcamento });
     }

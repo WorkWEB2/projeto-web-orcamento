@@ -17,11 +17,7 @@
 
     <div class="adminBudgetForm__formGroup">
       <label for="categoria-equipamento" class="adminBudgetForm__label">Categoria do equipamento</label>
-      <select id="categoria-equipamento" class="adminBudgetForm__select" [(ngModel)]="categoriaEquipamento"
-        name="categoriaEquipamento">
-        <option value="" disabled>Selecione uma categoria</option>
-        <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
-      </select>
+      <input id="client-name" class="adminBudgetForm__input" [(ngModel)]="categoriaEquipamento" name="clientName" disabled />
     </div>
 
     <div class="adminBudgetForm__formGroup">
@@ -51,7 +47,7 @@
   </form>
 
   <!-- Seção de Histórico do Pedido -->
-  <div class="adminBudgetForm__progress" *ngIf="order && order.history && order.history.length">
+  <!-- <div class="adminBudgetForm__progress" *ngIf="order && order.history && order.history.length">
     <h2 class="adminBudgetForm__subtitle">Progresso do pedido</h2>
     <div class="adminBudgetForm__statusFlow">
       <ng-container *ngFor="let log of order.history">
@@ -61,7 +57,7 @@
         </div>
       </ng-container>
     </div>
-  </div>
+  </div> -->
 
 
 </div>
