@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
 import { OrdersService } from '../../services/orders.service';
+import { SolicitacaoService } from '../../services/solicitacao.service';
+import { Solicitacao } from '../../shared/models/Solicitacao.models';
 
 @Component({
   selector: 'app-orders-table',
@@ -12,14 +14,24 @@ import { OrdersService } from '../../services/orders.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrdersTableComponent implements OnInit {
-  orders: Array<any> = [];
+  orders: Array<Solicitacao> = [];
   selectedOrder: any = null;
 
-  constructor(private ordersService: OrdersService) {}
+  constructor( private solicitacaoService: SolicitacaoService) {}
 
   ngOnInit(): void {
+    this.solicitacaoService.buscarTodas().subscribe(
+      (orders) => {
+        this.orders = [...orders];
+        console.log(orders);
+      },
+      (error) => {
+        console.error('Erro ao listar funcionários:', error);
+      }
+    );
+    /*
     console.log('OrdersTableComponent initialized');
-    this.ordersService.orders$.subscribe((orders) => {
+    this.solicitacaoService.buscarTodas.subscribe((orders) => {
       this.orders = orders
         .map((order) => {
           return {
@@ -29,7 +41,7 @@ export class OrdersTableComponent implements OnInit {
         })
         .sort((a, b) => a.date.getTime() - b.date.getTime());
     });
-    console.log('Orders:', this.orders);
+    console.log('Orders:', this.orders);*/
   }
 
   openOrderModal(order: any): void {

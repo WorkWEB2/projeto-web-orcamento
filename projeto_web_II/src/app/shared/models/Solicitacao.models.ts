@@ -18,5 +18,5 @@ export class Solicitacao {
     valorOrcamento?:number
     justificativaRejeicao?:string;
     historicoMovimentacao?: Movimentacao[];
-
+    // orcamento: any;
 }
