@@ -1,9 +1,8 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { environment } from "../../environments/environment";
-import { EstadoSolicitacao, Funcionario, Solicitacao } from "../models";
-import { UserService } from "./user.service";
 import { Observable } from "rxjs";
+import { Solicitacao } from "../shared/models/Solicitacao.models";
+import { EstadoSolicitacao } from "../shared/models/estadoSolicitacao.models";
 
 @Injectable({
     providedIn: 'root'
@@ -11,11 +10,10 @@ import { Observable } from "rxjs";
   
 export class SolicitacaoService {
   
-    url:string = environment.URL_API;
+    url:string = 'http://localhost:8080/manutencao-equipamento-api';
   
     constructor(
-      private http: HttpClient,
-      private userService: UserService) {}
+      private http: HttpClient) {}
   
   
     registrar(solicitacao: Solicitacao){
@@ -26,7 +24,7 @@ export class SolicitacaoService {
     
     efeturarOrcamento(solicitacao: Solicitacao){
       return this.http.post<Solicitacao>(`${this.url}/solicitacao/efetuarOrcamento/${solicitacao.id}`,  {id:solicitacao.id , 
-                                                                                    valorOrcamento : solicitacao.orcamento?.valorOrcamento });
+                                                                                    valorOrcamento : solicitacao.valorOrcamento });
     }
     
     efeturarManutencao(solicitacao: Solicitacao){
@@ -36,7 +34,7 @@ export class SolicitacaoService {
     }
     
     redirecionar(solicitacao: Solicitacao){
-      return this.http.post<Solicitacao>(`${this.url}/solicitacao/redirecionar/${solicitacao.id}`,  {idFuncionario:solicitacao.funcionario?.id });
+      return this.http.post<Solicitacao>(`${this.url}/solicitacao/redirecionar/${solicitacao.id}`,  {idFuncionario:solicitacao.funcionario?.id});
     }
     
     
