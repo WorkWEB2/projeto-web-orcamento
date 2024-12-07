@@ -11,9 +11,9 @@ export const authGuard: CanActivateFn = (route, state) => {
   console.log('Usuário Logado:', usuarioLogado); // Verifique se o usuário está logado
 
   if (usuarioLogado) {
-      if (route.data?.['role'] && route.data?.['role'].indexOf(usuarioLogado.perfil) === -1) {
+      if (route.data?.['role'] && route.data?.['role'].indexOf(usuarioLogado) === -1) {
           // Se o perfil do usuário não está no perfil da rota
-          console.log('Perfil do usuário não autorizado:', usuarioLogado.perfil);
+          console.log('Perfil do usuário não autorizado:', usuarioLogado);
           router.navigate(['/login'], { queryParams: { error: "Proibido o acesso a " + url } });
           return false;
       }

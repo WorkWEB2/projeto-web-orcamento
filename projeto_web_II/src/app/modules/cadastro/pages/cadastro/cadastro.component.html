@@ -51,14 +51,9 @@
     </div>
 
     <div class="cadastro__inputContainer">
-      <label for="telefone" class="cadastro__label">Telefone</label>
-      <input type="tel" id="telefone" class="cadastro__input" formControlName="telefone" [value]="cadastroForm.get('telefone')?.value | telefoneMask" />
+      <label for="celular" class="cadastro__label">Celular</label>
+      <input type="tel" id="celular" class="cadastro__input" formControlName="celular" [value]="cadastroForm.get('celular')?.value | telefoneMask" />
     </div>
-
-    <div class="cadastro__inputContainer">
-      <label for="senha" class="cadastro__label">Senha</label>
-      <input type="password" id="senha" class="cadastro__input" formControlName="senha" />
-    </div>   
 
     <button class="cadastro__buttonSubmit">Cadastrar</button>
 

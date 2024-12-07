@@ -11,6 +11,7 @@ import { Router, RouterLink } from '@angular/router';
 import { NumericoDirective } from '../../../../shared/directives/numerico.directive';
 import { Usuario } from '../../../../shared/models/usuario.model';
 import { LoginService } from '../../../../services/login.service';
+import { ClienteService } from '../../../../services/cliente.service';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class CadastroComponent implements OnInit {
   public cadastroForm!: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private apiService: ApiService,
-    private loginService: LoginService, private router: Router) { }
+    private loginService: LoginService, private router: Router, private clienteService: ClienteService ) { }
 
   ngOnInit(): void {
     this.cadastroForm = this.formBuilder.group({
@@ -41,7 +42,7 @@ export class CadastroComponent implements OnInit {
       endereco: [''],
       localidade: [''],
       estado: [''],
-      telefone: ['', Validators.required],
+      celular: ['', Validators.required],
       senha: ['', Validators.required]
     });
   }
@@ -64,20 +65,18 @@ export class CadastroComponent implements OnInit {
       const formValues = this.cadastroForm.value;
       const novoUsuario = new Usuario(
         formValues.nome,
-        formValues.cpf,
         formValues.email,
-        formValues.emailConfirmed,
+        formValues.cpf,
         formValues.cep,
-        formValues.numero,
         formValues.endereco,
-        formValues.localidade,
+        formValues.cidade,
         formValues.estado,
-        formValues.telefone,
+        formValues.numero,
+        formValues.celular,
         "CLIENTE",  // Perfil padrão
-        formValues.senha
       );
   
-      this.loginService.registrarUsuario(novoUsuario);
+      this.clienteService.cadastrar(novoUsuario);
       console.log('Usuário registrado:', novoUsuario);  // Verificar no console
       this.router.navigate(['/login']);
     } else if(this.cadastroForm.invalid) {

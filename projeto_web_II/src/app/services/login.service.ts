@@ -15,7 +15,7 @@ export class LoginService {
 
   public get usuarioLogado(): Usuario | null {
     let usu = localStorage[LS_CHAVE];
-    return (usu ? JSON.parse(localStorage[LS_CHAVE]) : null);
+    return (usu ? JSON.parse(localStorage[LS_CHAVE]) as Usuario : null);
   }
 
   public set usuarioLogado(usuario: Usuario) {
@@ -30,23 +30,21 @@ export class LoginService {
   login(login: Login): Observable<Usuario | null> {
 
     let usu = new Usuario(
-      "",             // nome
-      "",             // cpf
-      login.login,    // email
-      login.login,    // confirmarEmail
-      0,              // cep
-      0,              // numero
-      "",             // endereco
-      "",             // localidade
-      "",             // estado
-      "",             // telefone
-      "CLIENTE",      // perfil
-      login.senha     // senha
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            "",
+            0,
+            "",
+            "",
     );
 
     if (login.login === login.senha) {
       if (login.login === "admin@admin.com") {
-        usu.perfil = "ADMIN";
+        //usu.perfil = "ADMIN";
       }
       return of(usu);
     } else {
