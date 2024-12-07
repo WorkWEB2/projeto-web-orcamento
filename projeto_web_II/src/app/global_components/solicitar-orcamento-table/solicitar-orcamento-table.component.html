@@ -15,7 +15,7 @@
       <select id="categoria-equipamento" class="userBudgetForm__select" [(ngModel)]="categoriaEquipamento"
         name="categoriaEquipamento" required>
         <option value="" disabled>Selecione uma categoria</option>
-        <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria.nome }}</option>
       </select>
     </div>
 

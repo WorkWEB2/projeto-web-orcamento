@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { OrdersService } from '../../services/orders.service';
 import { v4 as uuidv4 } from 'uuid';
+import { CategoriaService } from '../../services/categoria.service';
+import { Categoria } from '../../shared/models/categoria.models';
 
 @Component({
   selector: 'app-solicitar-orcamento-table',
@@ -13,21 +15,22 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['./solicitar-orcamento-table.component.scss'],
 })
 export class SolicitarOrcamentoTableComponent implements OnInit {
-  categorias: Array<string> = [];
+  categorias: Array<Categoria> = [];
   descricaoEquipamento: string = '';
   categoriaEquipamento: string = '';
   descricaoDefeito: string = '';
 
-  constructor(private ordersService: OrdersService, private router: Router) {}
+  constructor(private ordersService: OrdersService, private router: Router, private categoriaService: CategoriaService) {}
 
   ngOnInit(): void {
-    this.categorias = [
-      'Celular',
-      'Notebook',
-      'Tablet',
-      'Televisão',
-      'Console de Videogame',
-    ];
+    this.categoriaService.listar().subscribe(
+      (categorias) => {
+        this.categorias = categorias;
+      },
+      (error) => {
+        console.error('Erro ao listar categorias:', error);
+      }
+    );
   }
 
   onSubmit(): void {

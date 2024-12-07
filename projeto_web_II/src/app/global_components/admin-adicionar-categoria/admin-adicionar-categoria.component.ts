@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CategoriaService } from '../../services/categoria.service';
+import { Categoria } from '../../shared/models/categoria.models';
 
 @Component({
   selector: 'app-admin-adicionar-categoria',
@@ -10,42 +12,63 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./admin-adicionar-categoria.component.scss'],
 })
 export class AdminAdicionarCategoriaComponent implements OnInit {
-  categorias: Array<{ nome: string }> = [];
+  categorias: Array<Categoria> = [];
   novaCategoria: string = '';
   categoriaEmEdicao: { nome: string } | null = null;
 
-  constructor() {}
+  constructor(private categoriaService: CategoriaService) {}
 
   ngOnInit(): void {
-    // Dados mockados simulando consumo do backend
-    this.categorias = [
-      { nome: 'Categoria A' },
-      { nome: 'Categoria B' },
-      { nome: 'Categoria C' },
-    ];
+    this.categoriaService.listar().subscribe(
+        (categorias) => {
+          this.categorias = categorias;
+        },
+        (error) => {
+          console.error('Erro ao listar categorias:', error);
+        }
+      );
   }
 
   addCategoria(): void {
     if (this.novaCategoria.trim()) {
-      if (this.categoriaEmEdicao) {
-        // Atualizar categoria em edição
-        this.categoriaEmEdicao.nome = this.novaCategoria;
-        this.categoriaEmEdicao = null; // Limpar a edição
-      } else {
-        // Adicionar nova categoria
-        this.categorias.push({ nome: this.novaCategoria });
-      }
-      this.novaCategoria = '';
+      this.categoriaService.cadastrar({ nome: this.novaCategoria }).subscribe(
+        (categoria) => {
+          console.log('Categoria cadastrada com sucesso:', categoria);
+          this.categorias.push(categoria);
+          this.novaCategoria = '';
+        },
+        (error) => {
+          console.error('Erro ao cadastrar categoria:', error);
+        }
+      );
     }
   }
 
-  deleteCategoria(categoria: { nome: string }): void {
-    this.categorias = this.categorias.filter((c) => c !== categoria);
+  deleteCategoria(id:number): void {
+    this.categoriaService.deletar(id).subscribe(
+      () => {
+        console.log('Categoria deletada com sucesso:', id);
+        this.categorias = this.categorias.filter((c) => c.id !== id);
+      },
+      (error) => {
+        console.error('Erro ao deletar categoria:', error);
+      }
+    )
+    
   }
 
-  editCategoria(categoria: { nome: string }): void {
-    this.categoriaEmEdicao = categoria;
-    this.novaCategoria = categoria.nome; // Definir o valor do campo de entrada para edição
+  editCategoria(categoria: Categoria): void {
+    this.categoriaService.atualizar(categoria).subscribe(
+      () => {
+        this.categoriaEmEdicao = categoria;
+        this.novaCategoria = categoria.nome;
+        console.log('Categoria atualizada com sucesso:', categoria);
+
+      },
+      (error) => {
+        console.error('Erro ao atualizar categoria:', error);
+      }
+    );
   }
 
   cancelEdit(): void {
