@@ -14,7 +14,7 @@ import { Categoria } from '../../shared/models/categoria.models';
 export class AdminAdicionarCategoriaComponent implements OnInit {
   categorias: Array<Categoria> = [];
   novaCategoria: string = '';
-  categoriaEmEdicao: { nome: string } | null = null;
+  categoriaEmEdicao: Categoria | null = null;
 
   constructor(private categoriaService: CategoriaService) {}
 
@@ -57,22 +57,42 @@ export class AdminAdicionarCategoriaComponent implements OnInit {
     
   }
 
-  editCategoria(categoria: Categoria): void {
-    this.categoriaService.atualizar(categoria).subscribe(
-      () => {
-        this.categoriaEmEdicao = categoria;
-        this.novaCategoria = categoria.nome;
-        console.log('Categoria atualizada com sucesso:', categoria);
-
-      },
-      (error) => {
-        console.error('Erro ao atualizar categoria:', error);
-      }
-    );
+  salvarEdicao(): void {
+    if (this.categoriaEmEdicao) {
+      const categoriaAtualizada: Categoria = {
+        ...this.categoriaEmEdicao,
+        nome: this.novaCategoria.trim()
+      };
+  
+      this.categoriaService.atualizar(categoriaAtualizada).subscribe(
+        (categoriaAtualizada) => {
+          console.log('Categoria atualizada com sucesso:', categoriaAtualizada);
+  
+          // Atualiza a lista de categorias com o valor atualizado
+          const index = this.categorias.findIndex((c) => c.id === categoriaAtualizada.id);
+          if (index !== -1) {
+            this.categorias[index] = categoriaAtualizada;
+          }
+  
+          // Reseta os campos de edição
+          this.cancelEdit();
+        },
+        (error) => {
+          console.error('Erro ao atualizar categoria:', error);
+        }
+      );
+    }
   }
+  
 
   cancelEdit(): void {
     this.categoriaEmEdicao = null;
     this.novaCategoria = '';
   }
+
+  iniciarEdicao(categoria: Categoria): void {
+    this.categoriaEmEdicao = { ...categoria }; 
+    this.novaCategoria = categoria.nome;
+  }
+  
 }
