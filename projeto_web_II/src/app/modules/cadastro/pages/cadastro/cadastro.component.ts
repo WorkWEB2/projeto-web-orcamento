@@ -36,14 +36,12 @@ export class CadastroComponent implements OnInit {
       nome: ['', [Validators.required]],
       cpf: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
-      emailConfirmed: ['', [Validators.required, Validators.email]],
       cep: ['', Validators.required],
       numero: ['', Validators.required],
       endereco: [''],
       localidade: [''],
       estado: [''],
       celular: ['', Validators.required],
-      senha: ['', Validators.required]
     });
   }
 
@@ -69,16 +67,15 @@ export class CadastroComponent implements OnInit {
         formValues.cpf,
         formValues.cep,
         formValues.endereco,
-        formValues.cidade,
+        formValues.localidade,
         formValues.estado,
         formValues.numero,
         formValues.celular,
         "CLIENTE",  // Perfil padrão
       );
   
-      this.clienteService.cadastrar(novoUsuario);
+      this.clienteService.cadastrar(novoUsuario).subscribe( response => { console.log(response); });
       console.log('Usuário registrado:', novoUsuario);  // Verificar no console
-      this.router.navigate(['/login']);
     } else if(this.cadastroForm.invalid) {
       alert('Por favor, preencha todos os campos obrigatórios!');
     }
