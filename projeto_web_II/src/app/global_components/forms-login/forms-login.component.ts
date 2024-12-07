@@ -44,7 +44,14 @@ export class FormsLoginComponent implements OnInit {
             this.loginService.usuarioLogado = usu;
             this.loading = false;
             this.loginService.saveToken(usu.message);
-            this.router.navigate(['/home']);
+            this.loginService.retornarUsuario().subscribe(usuario => {
+              if(usuario.role === "FUNCIONARIO") {
+                this.router.navigate(['/admin/home']);
+              } if (usuario.role === "CLIENTE") {
+              this.router.navigate(['/home']);
+              }
+              return;
+            });
           } else {
             this.loading = false;
             this.message = "Usuário/Senha inválidos.";

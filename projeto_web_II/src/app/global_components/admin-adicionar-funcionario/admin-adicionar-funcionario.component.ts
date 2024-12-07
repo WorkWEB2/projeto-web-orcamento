@@ -27,30 +27,7 @@ export class AdicionarFuncionarioComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    // Dados mockados simulando consumo do backend (data no formato dd/mm/aaaa)
-    this.funcionarios = [
-      {
-        id: 1,
-        nome: 'João Silva',
-        dataNascimento: '01/01/1990',
-        email: 'joao@email.com',
-        senha: '123456',
-      },
-      {
-        id: 2,
-        nome: 'Maria Oliveira',
-        dataNascimento: '01/01/1995',
-        email: 'maria@email.com',
-        senha: '123456',
-      },
-      {
-        id: 3,
-        nome: 'Pedro Souza',
-        dataNascimento: '01/01/1980',
-        email: 'pedro@email.com',
-        senha: '123456',
-      },
-    ];
+   
   }
 
   openModal(funcionario?: any): void {
