@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 // Importações necessárias para o ngx-mask
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { FuncionarioService } from '../../services/funcionario.service';
 
 @Component({
   selector: 'app-admin-adicionar-funcionario',
@@ -19,15 +20,22 @@ export class AdicionarFuncionarioComponent implements OnInit {
   selectedFuncionario: any = {
     id: null,
     nome: '',
-    dataNascimento: '',
+    dtNascimento: '',
     email: '',
     senha: '',
   };
 
-  constructor() {}
+  constructor(private funcionarioService:FuncionarioService) {}
 
   ngOnInit(): void {
-   
+    this.funcionarioService.listar().subscribe(
+      (funcionarios) => {
+        this.funcionarios = funcionarios;
+      },
+      (error) => {
+        console.error('Erro ao listar funcionários:', error);
+      }
+    );
   }
 
   openModal(funcionario?: any): void {
@@ -39,7 +47,7 @@ export class AdicionarFuncionarioComponent implements OnInit {
       this.selectedFuncionario = {
         id: null,
         nome: '',
-        dataNascimento: '',
+        dtNascimento: '',
         email: '',
         senha: '',
       };
@@ -54,26 +62,41 @@ export class AdicionarFuncionarioComponent implements OnInit {
     if (this.selectedFuncionario.nome) {
       if (this.selectedFuncionario.id) {
         // Atualiza o funcionário existente
-        const index = this.funcionarios.findIndex(
-          (f) => f.id === this.selectedFuncionario.id
+        this.funcionarioService.atualizar(this.selectedFuncionario).subscribe(
+          (funcionario) => {
+            console.log('Funcionário atualizado:', funcionario);
+          },
+          (error) => {
+            console.error('Erro ao atualizar funcionário:', error);
+          }
         );
-        if (index > -1) {
-          this.funcionarios[index] = { ...this.selectedFuncionario };
-        }
       } else {
         // Adiciona novo funcionário com ID único
-        const newId = this.funcionarios.length
-          ? Math.max(...this.funcionarios.map((f) => f.id)) + 1
-          : 1;
-        this.funcionarios.push({ ...this.selectedFuncionario, id: newId });
+        this.funcionarioService.cadastrar(this.selectedFuncionario).subscribe(
+          (funcionario) => {
+            console.log('Funcionário cadastrado:', funcionario);
+          },
+          (error) => {
+            console.error('Erro ao cadastrar funcionário:', error);
+          }
+        );
       }
     }
     this.closeModal();
   }
 
   deleteFuncionario(funcionario: any): void {
-    this.funcionarios = this.funcionarios.filter(
-      (f) => f.id !== funcionario.id
+    this.funcionarioService.deletar(funcionario.id).subscribe(
+      (response) => {
+        console.log('Funcionário deletado:', response);
+        this.funcionarios = this.funcionarios.filter(
+          (f) => f.id !== funcionario.id
+        );
+      },
+      (error) => {
+        console.error('Erro ao deletar funcionário:', error);
+        alert('Erro ao deletar funcionário');
+      }
     );
   }
 }
