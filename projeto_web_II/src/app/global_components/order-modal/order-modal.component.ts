@@ -1,5 +1,10 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { SolicitacaoService } from '../../services/solicitacao.service';
+import { Solicitacao } from '../../shared/models/Solicitacao.models';
+import { EstadoSolicitacao } from '../../shared/models/estadoSolicitacao.models';
+import { Movimentacao } from '../../shared/models/Movimentacao.models';
+import { Usuario } from '../../shared/models';
 
 @Component({
   selector: 'app-order-modal',
@@ -8,29 +13,40 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   standalone: true,
   imports: [CommonModule, DatePipe],
 })
-export class OrderModalComponent {
-  @Input() order: any;
+export class OrderModalComponent implements OnInit {
+
+  @Input() order: Solicitacao | undefined;
   @Output() close = new EventEmitter<void>();
 
-  statuses = [
-    'ABERTO',
-    'ORÇADO',
-    'REJEITADO',
-    'APROVADO',
-    'REDIRECIONADO',
-    'AGUARDANDO PAGAMENTO',
-    'PAGO',
-    'FINALIZADO',
-  ];
+  statuses =  EstadoSolicitacao;
+  descricaoEquipamento:string = '';
+  descricaoProblema:string = '';
+  dtHrCriacao:Date = new Date();
+  funcionario: Usuario = {nome: '', email: '',   cpf: '', endereco: '',  id: 0, cep: '',  cidade: '',  estado: '', numero: 0, celular: '', role: ''};
+  valorOrcamento: number | string = "-";
+  historicoMovimentacao: Movimentacao[] = [];
 
-  get statusesToDisplay(): string[] {
-    const currentIndex = this.statuses.indexOf(this.order.status);
-    return this.statuses.slice(0, currentIndex + 1);
+  constructor( private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {
   }
+
+  ngOnInit(): void {
+    this.descricaoEquipamento = this.order?.descricaoEquipamento ?? '';
+    this.descricaoProblema = this.order?.descricaoProblema ?? '';
+    this.dtHrCriacao = this.order?.dtHrCriacao ?? this.dtHrCriacao;
+    this.funcionario = this.order?.funcionario ?? this.funcionario;
+    this.valorOrcamento = this.order?.orcamento?.valorOrcamento ?? this.valorOrcamento;
+    this.historicoMovimentacao = this.order?.historicoMovimentacao ?? [];
+  }
+
+
+  // get statusesToDisplay(): string[] {
+  //   const currentIndex = this.statuses.indexOf(this.order?.estadoAtual?? EstadoSolicitacao.aberta);
+  //   return this.statuses.slice(0, currentIndex + 1);
+  // }
 
   getStatusClass(status: string): string {
     const statusColors: { [key: string]: string } = {
-      ABERTO: 'cinza',
+      Estado: 'cinza',
       ORÇADO: 'marrom',
       REJEITADO: 'vermelho',
       APROVADO: 'amarelo',
@@ -42,16 +58,20 @@ export class OrderModalComponent {
     return statusColors[status] || '';
   }
 
-  logHistory(status: string) {
-    const date = new DatePipe('en-US').transform(new Date(), 'short');
-    this.order.history.push({ date, status });
+  logHistory(status: EstadoSolicitacao) {
+    // const date = new DatePipe('en-US').transform(new Date(), 'short');
+    const date = new Date();
+    this.order?.historicoMovimentacao?.push(new Movimentacao ( date, status));
   }
 
+
   aprovarPedido() {
-    const valor = this.order.value;
+    const valor = this.order?.orcamento;
     alert(`Serviço Aprovado no Valor R$ ${valor}`);
-    this.logHistory('APROVADO');
-    this.order.status = 'APROVADO';
+    this.logHistory(EstadoSolicitacao.aprovada);
+    if (this.order) {
+      this.order.estadoAtual = EstadoSolicitacao.aprovada;
+    }
     this.close.emit(); // Redireciona para RF003 após clicar em OK
   }
 
@@ -71,22 +91,30 @@ export class OrderModalComponent {
     }
 
     // Armazena o motivo da rejeição
-    this.order.rejectionReason = motivo;
-    this.logHistory('REJEITADO');
-    this.order.status = 'REJEITADO';
-    alert('Serviço Rejeitado');
-    this.close.emit();
+    if (this.order) {
+      if (this.order.orcamento) {
+        this.order.orcamento.justificativaRejeicao = motivo;
+      }
+      this.logHistory(EstadoSolicitacao.rejeitada);
+      this.order.estadoAtual = EstadoSolicitacao.rejeitada;
+      }
+      alert('Serviço Rejeitado');
+      this.close.emit();
   }
 
   resgatarPedido() {
-    this.logHistory('ORÇADO');
-    this.order.status = 'ORÇADO';
+    this.logHistory(EstadoSolicitacao.orcada);
+    if (this.order){
+      this.order.estadoAtual = EstadoSolicitacao.orcada;
+    }
     this.close.emit();
   }
 
   pagarPedido() {
-    this.logHistory('PAGO');
-    this.order.status = 'PAGO';
+    this.logHistory(EstadoSolicitacao.paga);
+    if (this.order) {
+    this.order.estadoAtual = EstadoSolicitacao.paga;
+    }
     this.close.emit();
   }
 }

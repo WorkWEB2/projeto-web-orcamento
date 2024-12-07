@@ -25,29 +25,23 @@ export class OrdersTableComponent implements OnInit {
   ngOnInit(): void {
     this.solicitacaoService.buscarTodas().subscribe(
       (result) => {
-        this.orders = [...result];
-        this.cdr.detectChanges();
-      },
-      (error) => {
-        console.error('Erro ao listar funcionários:', error);
-      }
-    );
-    /*
-    console.log('OrdersTableComponent initialized');
-    this.solicitacaoService.buscarTodas.subscribe((orders) => {
-      this.orders = orders
+      this.orders = result
         .map((order) => {
-          return {
-            ...order,
-            date: new Date(order.date),
-          };
+        return {
+          ...order,
+          date: new Date(order.dtHrCriacao ?? ''),
+        };
         })
         .sort((a, b) => a.date.getTime() - b.date.getTime());
-    });
-    console.log('Orders:', this.orders);*/
+      this.cdr.detectChanges();
+      },
+      (error) => {
+      console.error('Erro ao listar funcionários:', error);
+      }
+    );
   }
 
-  openOrderModal(order: any): void {
+  openOrderModal(order: Solicitacao): void {
     this.selectedOrder = order;
   }
 
