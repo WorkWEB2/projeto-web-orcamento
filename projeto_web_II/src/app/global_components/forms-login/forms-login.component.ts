@@ -16,7 +16,7 @@ import { Usuario, Login } from '../../shared/models';
 export class FormsLoginComponent implements OnInit {
   
   @ViewChild('formLogin') formLogin! : NgForm;
-  login: Login = new Login();
+  login: Login = new Login("", "");
   loading: boolean= false;
   message!: string;
 
@@ -37,6 +37,23 @@ export class FormsLoginComponent implements OnInit {
     }
 
     logar(): void {
+      if (this.formLogin.form.valid) {
+        this.loginService.logar(this.login).subscribe(usu => {
+          console.log(usu);
+          if (usu != null) {
+            this.loginService.usuarioLogado = usu;
+            this.loading = false;
+            this.loginService.saveToken(usu.message);
+            this.router.navigate(['/home']);
+          } else {
+            this.loading = false;
+            this.message = "Usuário/Senha inválidos.";
+          }
+        });
+      } else {   
+        this.loading = false;
+      }
+      /*
       console.log(this.login);  // Isso está funcionando, então o método é chamado
       this.loading = true;
       if (this.formLogin.form.valid) {
@@ -60,7 +77,7 @@ export class FormsLoginComponent implements OnInit {
           });
       } else {
           this.loading = false;
-      }
+      }*/
   }
   
 }

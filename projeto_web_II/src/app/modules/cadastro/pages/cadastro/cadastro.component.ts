@@ -76,6 +76,7 @@ export class CadastroComponent implements OnInit {
   
       this.clienteService.cadastrar(novoUsuario).subscribe( response => { console.log(response); });
       console.log('Usuário registrado:', novoUsuario);  // Verificar no console
+      this.router.navigate(['/login']);
     } else if(this.cadastroForm.invalid) {
       alert('Por favor, preencha todos os campos obrigatórios!');
     }

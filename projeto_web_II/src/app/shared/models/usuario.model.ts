@@ -8,7 +8,7 @@ export class Usuario {
     estado: string;
     numero: number;
     celular: string;
-    perfil: string;
+    role: string;
     constructor(
             nome: string,
             email: string,
@@ -19,7 +19,7 @@ export class Usuario {
             estado: string,
             numero: number,
             celular: string,
-            perfil: string,
+            role: string,
 
     ){
         this.nome = nome;
@@ -31,6 +31,6 @@ export class Usuario {
         this.estado = estado;
         this.numero = numero;
         this.celular = celular;
-        this.perfil = perfil;
+        this.role = role;
     }
 }

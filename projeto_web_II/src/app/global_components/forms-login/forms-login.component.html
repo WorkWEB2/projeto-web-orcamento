@@ -1,7 +1,7 @@
 <form #formLogin="ngForm" (ngSubmit)="logar()">
   <div class="emailContainer">
     <label for="usuario">Email</label>
-    <input type="text" id="usuario" name="usuario" [(ngModel)]="login.login" #usuario="ngModel" 
+    <input type="text" id="usuario" name="usuario" [(ngModel)]="login.email" #usuario="ngModel" 
     placeholder="example@gmail.com" autocomplete="email" required>
     <div *ngIf="usuario.errors && (usuario.dirty || usuario.touched)">
       <div [hidden]="!usuario.errors['required']"> 
@@ -12,7 +12,7 @@
 
   <div class="passwordContainer">
     <label for="password">Password</label>
-    <input type="password" id="password" name="password" [(ngModel)]="login.senha" #senha="ngModel"  
+    <input type="password" id="password" name="password" [(ngModel)]="login.password" #senha="ngModel"  
     placeholder="XXXXXXXXX" required>
     <div *ngIf="senha.errors && (senha.dirty || senha.touched)">
       <div [hidden]="!senha.errors['required']"> 
