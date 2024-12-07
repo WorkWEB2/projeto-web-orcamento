@@ -1,4 +1,4 @@
-<div class="ordersTable">
+<div class="ordersTable" *ngIf="!!orders">
   <div class="ordersTable__header">
     <h1 class="ordersTable__title">Pedidos</h1>
   </div>
@@ -13,15 +13,15 @@
       </tr>
     </thead>
     <tbody class="ordersTable__tableBody">
-      <tr *ngFor="let order of orders">
-        <td>{{ order.descricaoEquipamento }}</td>
-        <td>{{ order.dtHrCriacao | date: 'dd/MM/yyyy, HH:mm' }}</td>
+      <tr  *ngFor="let item of orders">
+        <td>{{ item.descricaoEquipamento }}</td>
+        <td>{{ item.dtHrCriacao | date: 'dd/MM/yyyy, HH:mm' }}</td>
         <td>
-          {{ order.valorOrcamento != null ? ('R$ ' + order.valorOrcamento) : 'Aguardando' }}
+          {{ item?.orcamento?.valorOrcamento != null ? ('R$ ' + item?.orcamento?.valorOrcamento) : 'Aguardando' }}
         </td>
-        <td>{{ order.estadoAtual }}</td>
+        <td>{{ item.estadoAtual }}</td>
         <td>
-          <button class="ordersTable__buttonOrder" (click)="openOrderModal(order)">
+          <button class="ordersTable__buttonOrder" (click)="openOrderModal(item)">
             <img src="/assets/eye.svg" alt="Ver Detalhes">
           </button>
         </td>

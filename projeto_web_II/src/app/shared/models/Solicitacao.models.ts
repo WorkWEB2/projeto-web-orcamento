@@ -15,8 +15,10 @@ export class Solicitacao {
     descricaoManutencao?:string;
     orientacaoCliente?:string;
     estadoAtual?: EstadoSolicitacao;
-    valorOrcamento?:number
+    orcamento?: {
+       valorOrcamento?: number;
+       justificativaRejeicao?: string;
+    };
     justificativaRejeicao?:string;
     historicoMovimentacao?: Movimentacao[];
-    // orcamento: any;
 }

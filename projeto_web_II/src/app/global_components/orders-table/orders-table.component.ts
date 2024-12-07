@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { OrderModalComponent } from '../order-modal/order-modal.component';
 import { OrdersService } from '../../services/orders.service';
 import { SolicitacaoService } from '../../services/solicitacao.service';
@@ -16,14 +16,16 @@ import { Solicitacao } from '../../shared/models/Solicitacao.models';
 export class OrdersTableComponent implements OnInit {
   orders: Array<Solicitacao> = [];
   selectedOrder: any = null;
+  categorias: string[] = [];
+  descricaoEquipamento: string[] = [];
 
-  constructor( private solicitacaoService: SolicitacaoService) {}
+  constructor( private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {
+  }
 
   ngOnInit(): void {
     this.solicitacaoService.buscarTodas().subscribe(
-      (orders) => {
-        this.orders = [...orders];
-        console.log(orders);
+      (result) => {
+        this.orders = [...result];
       },
       (error) => {
         console.error('Erro ao listar funcionários:', error);

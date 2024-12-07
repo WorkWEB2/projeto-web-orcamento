@@ -24,7 +24,7 @@ export class SolicitacaoService {
     
     efeturarOrcamento(solicitacao: Solicitacao){
       return this.http.post<Solicitacao>(`${this.url}/solicitacao/efetuarOrcamento/${solicitacao.id}`,  {id:solicitacao.id , 
-                                                                                    valorOrcamento : solicitacao.valorOrcamento });
+                                                                                    valorOrcamento : solicitacao.orcamento?.valorOrcamento });
     }
     
     efeturarManutencao(solicitacao: Solicitacao){
