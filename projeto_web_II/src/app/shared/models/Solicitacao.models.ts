@@ -1,5 +1,5 @@
 import { Categoria } from '../models/categoria.models';
-import { EstadoSolicitacao } from './estadoSolicitacao.models';
+import { EstadoSolicitacao } from './EstadoSolicitacao.models';
 import { Movimentacao } from './Movimentacao.models';
 import { Usuario } from './usuario.model';
 

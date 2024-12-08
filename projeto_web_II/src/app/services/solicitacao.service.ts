@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Solicitacao } from "../shared/models/Solicitacao.models";
-import { EstadoSolicitacao } from "../shared/models/estadoSolicitacao.models";
+import { EstadoSolicitacao } from "../shared/models/EstadoSolicitacao.models";
 
 @Injectable({
     providedIn: 'root'

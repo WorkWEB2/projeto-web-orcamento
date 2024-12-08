@@ -1,4 +1,4 @@
-import { EstadoSolicitacao } from "./estadoSolicitacao.models";
+import { EstadoSolicitacao } from "./EstadoSolicitacao.models";
 import { Usuario } from "./usuario.model";
 
 export class Movimentacao {

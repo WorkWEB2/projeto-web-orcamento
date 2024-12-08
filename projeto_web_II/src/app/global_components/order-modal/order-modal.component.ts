@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/Solicitacao.models';
-import { EstadoSolicitacao } from '../../shared/models/estadoSolicitacao.models';
+import { EstadoSolicitacao } from '../../shared/models/EstadoSolicitacao.models';
 import { Movimentacao } from '../../shared/models/Movimentacao.models';
 import { Usuario } from '../../shared/models';
 

@@ -9,7 +9,7 @@ import { Categoria } from '../../shared/models/categoria.models';
 import { SolicitacaoService } from '../../services/solicitacao.service';
 import { Solicitacao } from '../../shared/models/Solicitacao.models';
 import { Movimentacao } from '../../shared/models/Movimentacao.models';
-import { EstadoSolicitacao } from '../../shared/models/estadoSolicitacao.models';
+import { EstadoSolicitacao } from '../../shared/models/EstadoSolicitacao.models';
 
 @Component({
   selector: 'app-admin-orcamentos-solicitados',
