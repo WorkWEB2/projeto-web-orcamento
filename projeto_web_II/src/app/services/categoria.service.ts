@@ -9,7 +9,7 @@ import { Categoria } from '../shared/models/categoria.models';
 })
 export class CategoriaService {
 
-  private apiUrl = 'http://localhost:8080/manutencao-equipamento-api';
+  private apiUrl = 'http://localhost:8080/api-manutencao-equipamento';
 
   constructor(private http: HttpClient) { }
 

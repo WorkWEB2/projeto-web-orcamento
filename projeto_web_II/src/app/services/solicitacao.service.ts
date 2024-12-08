@@ -10,7 +10,7 @@ import { EstadoSolicitacao } from "../shared/models/EstadoSolicitacao.models";
   
 export class SolicitacaoService {
   
-    url:string = 'http://localhost:8080/manutencao-equipamento-api';
+    url:string = 'http://localhost:8080/api-manutencao-equipamento';
   
     constructor(
       private http: HttpClient) {}

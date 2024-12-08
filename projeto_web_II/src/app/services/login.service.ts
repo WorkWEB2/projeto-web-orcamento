@@ -16,7 +16,7 @@ export class LoginService {
 
   constructor(private router:Router,private http: HttpClient, private tokenService: TokenService) { }
 
-  private apiUrl = 'http://localhost:8080/manutencao-equipamento-api';
+  private apiUrl = 'http://localhost:8080/api-manutencao-equipamento';
 
   logar(login: Login): Observable<any> {
     return this.http.post(this.apiUrl + "/auth", login);

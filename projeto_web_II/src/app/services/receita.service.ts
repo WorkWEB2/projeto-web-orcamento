@@ -9,7 +9,7 @@ import { ReceitaPeriodo } from '../shared/models/receitaPeriodo.models';
 })
 export class ReceitaService {
 
-  url:string = 'http://localhost:8080/manutencao-equipamento-api';
+  url:string = 'http://localhost:8080/api-manutencao-equipamento';
 
   constructor(private http: HttpClient) { }
 

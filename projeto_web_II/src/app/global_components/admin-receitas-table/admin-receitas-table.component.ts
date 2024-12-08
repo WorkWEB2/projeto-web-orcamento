@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import jsPDF from 'jspdf';
@@ -23,17 +23,21 @@ export class AdminReceitasTableComponent implements OnInit {
   categorias: Array<ReceitaCategoria> = [];
   periodos: Array<ReceitaPeriodo> = [];
 
-  constructor(private categoriaService: CategoriaService, private receitaService: ReceitaService ) {}
+  constructor(private categoriaService: CategoriaService, private receitaService: ReceitaService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.receitaService.buscarTodas().subscribe((receitaCategoria: ReceitaCategoria[]) => {
       this.categorias = receitaCategoria;
+      console.log(this.categorias);
     });
 
     this.receitaService.buscarPorPeriodo().subscribe((receitaPeriodo: ReceitaPeriodo[]) => {
       this.periodos = receitaPeriodo;
       console.log(this.periodos);
     });
+    this.cdr.detectChanges();
+    console.log(this.categorias);
+    console.log(this.periodos);
   }
    
   gerarPDFReceitasPorCategoria(): void {

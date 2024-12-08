@@ -8,7 +8,7 @@ import { Usuario } from '../shared/models';
 })
 export class FuncionarioService {
 
-  private apiUrl = 'http://localhost:8080/manutencao-equipamento-api';
+  private apiUrl = 'http://localhost:8080/api-manutencao-equipamento';
 
   constructor(private http: HttpClient) { }
 
