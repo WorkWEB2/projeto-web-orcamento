@@ -2,42 +2,14 @@
   <div class="receitasTable__header">
     <h1 class="receitasTable__title">Receitas</h1>
   </div>
-
-  <div class="receitasTable__filters">
-    <select [(ngModel)]="filtroCategoria" (change)="filtrarReceitas()">
-      <option value="">Filtrar por categoria</option>
-      <option *ngFor="let categoria of categorias" [value]="categoria">{{ categoria }}</option>
-    </select>
-    <input [(ngModel)]="dataInicial" type="date" (change)="filtrarReceitas()">
-    <input [(ngModel)]="dataFinal" type="date" (change)="filtrarReceitas()">
-  </div>
-
-  <table class="receitasTable__container">
-    <thead class="receitasTable__tableHeader">
-      <tr>
-        <th>Serviço</th>
-        <th>Categoria</th>
-        <th>Data/Hora</th>
-        <th>Receita</th>
-      </tr>
-    </thead>
-    <tbody class="receitasTable__tableBody">
-      <tr *ngFor="let receita of receitasFiltradas">
-        <td>{{ receita.servico }}</td>
-        <td>{{ receita.categoria }}</td>
-        <td>{{ receita.dataHora | date:'dd/MM/yy, HH:mm' }}</td>
-        <td>{{ receita.receita | currency:'BRL' }}</td>
-      </tr>
-    </tbody>
-  </table>
-
+  
   <!-- Botões para gerar PDFs -->
   <div class="receitasTable__buttonsContainer">
-    <button class="receitasTable__generatePdfButton" (click)="gerarPDFReceitas()">
-      Gerar PDF - Receitas por Data
-    </button>
     <button class="receitasTable__generatePdfButton" (click)="gerarPDFReceitasPorCategoria()">
       Gerar PDF - Receitas por Categoria
+    </button>
+    <button class="receitasTable__generatePdfButton" (click)="gerarPDFReceitasPorPeriodo()">
+      Gerar PDF - Receitas por Data
     </button>
   </div>
 </div>
