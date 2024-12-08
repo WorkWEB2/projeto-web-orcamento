@@ -26,15 +26,15 @@ export class AppComponent {
     this.router.navigate(['/login']);
   }
 
-  temPermissao(...perfis: string[]) : boolean {
-    let usu = this.usuarioLogado;
-    if (usu != null && perfis.length>0) {
-      for (let p of perfis) {
-        if (usu.perfil.indexOf(p)!=-1) {
-          return true;
-        }
-      }
-    }
-    return false;
-    }
+  // temPermissao(...perfis: string[]) : boolean {
+  //   let usu = this.usuarioLogado;
+  //   if (usu != null && perfis.length>0) {
+  //     for (let p of perfis) {
+  //       //if (usu.perfil.indexOf(p)!=-1) {
+  //         return true;
+  //       }
+  //     }
+  //   }
+  //   return false;
+  //   }
 }
