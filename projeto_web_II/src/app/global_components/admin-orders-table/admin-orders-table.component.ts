@@ -21,18 +21,26 @@ export class AdminOrdersTableComponent implements OnInit {
   ngOnInit(): void {
     this.solicitacaoService.buscarTodas().subscribe(
       (result) => {
-      this.orders = result
-        .map((order) => {
-        return {
-          ...order,
-          date: new Date(order.dtHrCriacao ?? ''),
-        };
-        })
-        .sort((a, b) => a.date.getTime() - b.date.getTime());
-      this.cdr.detectChanges();
+        this.orders = result
+          .map((order) => {
+            return {
+              ...order,
+              date: new Date(order.dtHrCriacao ?? ''),
+            };
+          })
+          .sort((a, b) => {
+            if (a.estadoAtual === 'aberta' && b.estadoAtual !== 'aberta') {
+              return -1;
+            } else if (a.estadoAtual !== 'aberta' && b.estadoAtual === 'aberta') {
+              return 1;
+            } else {
+              return a.date.getTime() - b.date.getTime();
+            }
+          });
+        this.cdr.detectChanges();
       },
       (error) => {
-      console.error('Erro ao listar funcionários:', error);
+        console.error('Erro ao listar funcionários:', error);
       }
     );
   }

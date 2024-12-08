@@ -31,6 +31,7 @@
           <div class="orderModal__historic">
             <span [class]="getStatusClass(log.estadoMovimentacao)">{{ log.estadoMovimentacao }}</span>
             <p>{{ log.dtHrMovimentacao| date: 'dd/MM/yyyy, HH:mm' }}</p>
+            <p>{{ log.autorMovimentacao.nome }}</p>
           </div>
         </ng-container>
       </div> 
