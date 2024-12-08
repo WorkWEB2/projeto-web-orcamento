@@ -51,36 +51,36 @@ export const routes: Routes = [
     path: 'admin/home',
     component: HomeAdminComponent,
     canActivate: [authGuard],
-    data: { role: 'ADMIN' }
+    data: { role: 'FUNCIONARIO' }
   },
   {
     path: 'admin/orcamentos-solicitados',
     component: OrcamentosSolicitadosComponent,
     canActivate: [authGuard],
-    data: { role: 'ADMIN' }
+    data: { role: 'FUNCIONARIO' }
   },
   {
     path: 'admin/orcamentos-solicitados/:id',
     component: OrcamentosSolicitadosComponent,
     canActivate: [authGuard],
-    data: { role: 'ADMIN' }
+    data: { role: 'FUNCIONARIO' }
   },
   {
     path: 'admin/cadastrar-funcionario',
     component: CadastrarFuncionarioComponent,
     canActivate: [authGuard],
-    data: { role: 'ADMIN' }
+    data: { role: 'FUNCIONARIO' }
   },
   {
     path: 'admin/cadastrar-categoria',
     component: CadastrarCategoriaComponent,
     canActivate: [authGuard],
-    data: { role: 'ADMIN' }
+    data: { role: 'FUNCIONARIO' }
   },
   {
     path: 'admin/receitas',
     component: ReceitasComponent,
     canActivate: [authGuard],
-    data: { role: 'ADMIN' }
+    data: { role: 'FUNCIONARIO' }
   },
 ];

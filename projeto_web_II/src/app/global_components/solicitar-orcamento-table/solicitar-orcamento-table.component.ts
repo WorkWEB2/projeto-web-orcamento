@@ -4,6 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { OrdersService } from '../../services/orders.service';
 import { v4 as uuidv4 } from 'uuid';
+import { CategoriaService } from '../../services/categoria.service';
+import { Categoria } from '../../shared/models/categoria.models';
+import { SolicitacaoService } from '../../services/solicitacao.service';
+import { Solicitacao } from '../../shared/models/Solicitacao.models';
 
 @Component({
   selector: 'app-solicitar-orcamento-table',
@@ -13,29 +17,42 @@ import { v4 as uuidv4 } from 'uuid';
   styleUrls: ['./solicitar-orcamento-table.component.scss'],
 })
 export class SolicitarOrcamentoTableComponent implements OnInit {
-  categorias: Array<string> = [];
+  categorias: Array<Categoria> = [];
   descricaoEquipamento: string = '';
-  categoriaEquipamento: string = '';
+  categoriaEquipamento?: Categoria;
   descricaoDefeito: string = '';
+  solicitacao: Solicitacao = new Solicitacao();
 
-  constructor(private ordersService: OrdersService, private router: Router) {}
+  constructor(private ordersService: OrdersService, private router: Router, private categoriaService: CategoriaService,
+    private solicitacaoService: SolicitacaoService
+  ) {}
 
   ngOnInit(): void {
-    this.categorias = [
-      'Celular',
-      'Notebook',
-      'Tablet',
-      'Televisão',
-      'Console de Videogame',
-    ];
+    this.categoriaService.listar().subscribe(
+      (categorias) => {
+        this.categorias = categorias;
+      },
+      (error) => {
+        console.error('Erro ao listar categorias:', error);
+      }
+    );
   }
 
   onSubmit(): void {
-    console.log('Solicitando orçamento...');
-    const statusOptions = ['ABERTA', 'ORÇADO'];
-    const randomStatus =
-      statusOptions[Math.floor(Math.random() * statusOptions.length)];
-
+    this.solicitacao.descricaoEquipamento = this.descricaoEquipamento;
+    this.solicitacao.categoria = this.categoriaEquipamento;
+    this.solicitacao.descricaoProblema = this.descricaoDefeito;
+    this.solicitacaoService.registrar(this.solicitacao).subscribe(
+      (solicitacao) => {
+        
+        console.log('Solicitação registrada:', solicitacao);
+        this.router.navigate(['/home']);
+      },
+      (error) => {
+        console.error('Erro ao registrar solicitação:', error);
+      }
+    );
+    /*
     const solicitacaoOrcamento = {
       clientName: 'Cliente',
       item: this.descricaoEquipamento,
@@ -47,10 +64,8 @@ export class SolicitarOrcamentoTableComponent implements OnInit {
       responsible: null,
       history: [{ date: new Date(), status: randomStatus }],
       id: uuidv4(),
-    };
+    };*/
 
-    this.ordersService.addOrder(solicitacaoOrcamento);
-    this.router.navigate(['/home']);
-    console.log('Orçamento solicitado:', solicitacaoOrcamento);
+    //this.router.navigate(['/home']);
   }
 }
