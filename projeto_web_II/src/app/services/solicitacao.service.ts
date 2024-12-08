@@ -43,7 +43,7 @@ export class SolicitacaoService {
     }
     
     rejeitar(solicitacao: Solicitacao){
-      return this.http.post<Solicitacao>(`${this.url}/solicitacao/rejeitar/${solicitacao.id}`,{justificativaRejeicao:solicitacao.justificativaRejeicao});
+      return this.http.post<Solicitacao>(`${this.url}/solicitacao/rejeitar/${solicitacao.id}`,{justificativaRejeicao:solicitacao.orcamento?.justificativaRejeicao});
     }
 
     pagar(id:Number){

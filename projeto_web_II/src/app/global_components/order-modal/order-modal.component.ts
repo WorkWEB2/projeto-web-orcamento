@@ -35,25 +35,19 @@ export class OrderModalComponent implements OnInit {
     this.dtHrCriacao = this.order?.dtHrCriacao ?? this.dtHrCriacao;
     this.funcionario = this.order?.funcionario ?? this.funcionario;
     this.valorOrcamento = this.order?.orcamento?.valorOrcamento ?? this.valorOrcamento;
-    this.historicoMovimentacao = this.order?.historicoMovimentacao ?? [];
+    this.historicoMovimentacao = this.order?.historicoMovimentacao?.reverse() ?? [];
   }
-
-
-  // get statusesToDisplay(): string[] {
-  //   const currentIndex = this.statuses.indexOf(this.order?.estadoAtual?? EstadoSolicitacao.aberta);
-  //   return this.statuses.slice(0, currentIndex + 1);
-  // }
 
   getStatusClass(status: string): string {
     const statusColors: { [key: string]: string } = {
-      Estado: 'cinza',
-      ORÇADO: 'marrom',
-      REJEITADO: 'vermelho',
-      APROVADO: 'amarelo',
-      REDIRECIONADO: 'roxo',
-      'AGUARDANDO PAGAMENTO': 'azul',
-      PAGO: 'alaranjado',
-      FINALIZADO: 'verde',
+      aberta: 'cinza',
+      orçada: 'marrom',
+      rejeitada: 'vermelho',
+      aprovada: 'amarelo',
+      redirecionada: 'roxo',
+     'aguardando pagamento': 'azul',
+      paga: 'alaranjado',
+      finalizada: 'verde',
     };
     return statusColors[status] || '';
   }
@@ -66,19 +60,26 @@ export class OrderModalComponent implements OnInit {
 
 
   aprovarPedido() {
-    const valor = this.order?.orcamento;
-    alert(`Serviço Aprovado no Valor R$ ${valor}`);
+    this.solicitacaoService.aprovar(Number(this.order?.id)).subscribe(
+      (data) => {
+        console.log("Solicitação aprovada!", data);
+        alert(`Serviço Aprovado no Valor R$ ${this.valorOrcamento}`);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    
     this.logHistory(EstadoSolicitacao.aprovada);
     if (this.order) {
       this.order.estadoAtual = EstadoSolicitacao.aprovada;
     }
-    this.close.emit(); // Redireciona para RF003 após clicar em OK
+    this.close.emit();
   }
 
   rejeitarPedido() {
     let motivo: string | null = '';
-
-    // Continua solicitando o motivo enquanto estiver vazio ou nulo
+    
     while (!motivo) {
       motivo = prompt('Por favor, insira o motivo da rejeição:');
       if (motivo === null) {
@@ -89,23 +90,46 @@ export class OrderModalComponent implements OnInit {
         alert('O motivo da rejeição é obrigatório.');
       }
     }
-
-    // Armazena o motivo da rejeição
+  
     if (this.order) {
-      if (this.order.orcamento) {
-        this.order.orcamento.justificativaRejeicao = motivo;
-      }
+      // Se orcamento não existe, cria um objeto vazio
+      this.order.orcamento = this.order.orcamento || {};
+      // Atribui a justificativa de rejeição
+      this.order.orcamento.justificativaRejeicao = motivo;
+  
+      // Faz a requisição ao serviço passando o order atualizado
+      this.solicitacaoService.rejeitar(this.order).subscribe({
+        next: (data) => {
+          console.log("Solicitação rejeitada!", data);
+          alert('Serviço Rejeitado');
+          this.close.emit();
+
+          
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+
+      // Altera o estado e o histórico
       this.logHistory(EstadoSolicitacao.rejeitada);
       this.order.estadoAtual = EstadoSolicitacao.rejeitada;
-      }
-      alert('Serviço Rejeitado');
-      this.close.emit();
+    }
   }
 
   resgatarPedido() {
-    this.logHistory(EstadoSolicitacao.orcada);
+    this.solicitacaoService.resgatar(Number(this.order?.id)).subscribe(
+      (data) => {
+        console.log("Solicitação resgatada!", data);
+        alert('Serviço resgatado!');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    this.logHistory(EstadoSolicitacao.aprovada);
     if (this.order){
-      this.order.estadoAtual = EstadoSolicitacao.orcada;
+      this.order.estadoAtual = EstadoSolicitacao.aprovada;
     }
     this.close.emit();
   }

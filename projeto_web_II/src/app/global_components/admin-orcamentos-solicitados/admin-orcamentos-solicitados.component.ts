@@ -92,18 +92,18 @@ export class AdminOrcamentosSolicitadosComponent implements OnInit {
   }
   
 
-  // getStatusClass(status: string): string {
-  //   const statusColors: { [key: string]: string } = {
-  //     ABERTA: 'cinza',
-  //     ORÇADO: 'marrom',
-  //     REJEITADO: 'vermelho',
-  //     APROVADO: 'amarelo',
-  //     REDIRECIONADO: 'roxo',
-  //     'AGUARDANDO PAGAMENTO': 'azul',
-  //     PAGO: 'laranja',
-  //     FINALIZADO: 'verde',
-  //   };
-  //   return statusColors[status] || '';
-  // }
+  getStatusClass(status: string): string {
+    const statusColors: { [key: string]: string } = {
+      aberta: 'cinza',
+      orçada: 'marrom',
+      rejeitada: 'vermelho',
+      aprovada: 'amarelo',
+      redirecionada: 'roxo',
+     'aguardando pagamento': 'azul',
+      paga: 'alaranjado',
+      finalizada: 'verde',
+    };
+    return statusColors[status] || '';
+  }
 }
 

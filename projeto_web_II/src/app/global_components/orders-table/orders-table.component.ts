@@ -16,8 +16,6 @@ import { Solicitacao } from '../../shared/models/Solicitacao.models';
 export class OrdersTableComponent implements OnInit {
   orders: Array<Solicitacao> = [];
   selectedOrder: any = null;
-  categorias: string[] = [];
-  descricaoEquipamento: string[] = [];
 
   constructor( private solicitacaoService: SolicitacaoService, private cdr: ChangeDetectorRef) {
   }
