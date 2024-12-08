@@ -41,6 +41,6 @@
       <button *ngIf="order?.estadoAtual === 'orçada'" (click)="aprovarPedido()">Aprovar</button>
       <button *ngIf="order?.estadoAtual === 'orçada'" (click)="rejeitarPedido()">Rejeitar</button>
       <button *ngIf="order?.estadoAtual === 'rejeitada'" (click)="resgatarPedido()">Resgatar</button>
-      <button *ngIf="order?.estadoAtual === 'aguardando pagamento'" (click)="pagarPedido()">Pagar</button>
+      <button *ngIf="order?.estadoAtual === 'arrumada'" (click)="pagarPedido()">Pagar</button>
     </div>
   </div>

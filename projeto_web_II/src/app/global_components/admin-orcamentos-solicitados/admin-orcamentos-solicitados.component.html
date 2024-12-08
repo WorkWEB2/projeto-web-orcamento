@@ -38,26 +38,43 @@
     <div class="adminBudgetForm__formGroup" id="teste">
       <label for="valor-orcamento" class="adminBudgetForm__label">Valor do orçamento</label>
       <input id="valor-orcamento" type="number" min="0" placeholder="R$" class="adminBudgetForm__input"
-        [(ngModel)]="valorOrcamento" name="valorOrcamento" />
+        [(ngModel)]="valorOrcamento" name="valorOrcamento" [disabled]="estadoAtual !== 'aberta'" />
     </div>
 
-    <button type="button" class="adminBudgetForm__submitButton" (click)="salvarOrcamento()">
+    <button type="button" class="adminBudgetForm__submitButton" (click)="salvarOrcamento()" [disabled]="estadoAtual !== 'aberta'" >
       Salvar orçamento
-    </button>
+    </button>    
+
+    <button type="button" class="adminBudgetForm__submitButton" (click)="finalizarSolicitacao()" *ngIf="estadoAtual === 'paga'" >
+      Finalizar solicitação
+    </button>    
   </form>
 
-  <!-- Seção de Histórico do Pedido -->
-  <!-- <div class="adminBudgetForm__progress" *ngIf="order && order.history && order.history.length">
+   <!-- Seção de Histórico do Pedido -->
+   <div class="adminBudgetForm__progress">
     <h2 class="adminBudgetForm__subtitle">Progresso do pedido</h2>
     <div class="adminBudgetForm__statusFlow">
-      <ng-container *ngFor="let log of order.history">
+      <ng-container *ngFor="let log of historicoMovimentacao">
         <div class="adminBudgetForm__historic">
-          <span [ngClass]="getStatusClass(log.status)">{{ log.status }}</span>
-          <p>{{ log.date | date: 'dd/MM/yyyy, HH:mm' }}</p>
+          <span [ngClass]="getStatusClass(log.estadoMovimentacao)">{{ log.estadoMovimentacao }}</span>
+          <p>{{ log.dtHrMovimentacao | date: 'dd/MM/yyyy, HH:mm' }}</p>
         </div>
       </ng-container>
     </div>
-  </div> -->
+  </div>
 
+  <!-- Efetuar manutenção -->
+  <div class="adminBudgetForm__form" *ngIf="estadoAtual === 'aprovada'">
+    <h2 class="adminBudgetForm__subtitle">Efetuar manutenção</h2>
+    <label for="descricaoManutencao" class="adminBudgetForm__label">Descrição da manutenção</label>
+    <textarea id="descricaoManutencao" class="adminBudgetForm__textarea" rows="4" [(ngModel)]="descricaoManutencao"
+      name="descricaoManutencao"></textarea>
+    <label for="orientacaoCliente" class="adminBudgetForm__label">Orientação ao cliente</label>
+      <textarea id="orientacaoCliente" class="adminBudgetForm__textarea" rows="4" [(ngModel)]="orientacaoCliente"
+        name="orientacaoCliente"></textarea>
+    <button type="button" class="adminBudgetForm__submitButton" (click)="efetuarManutencao()">
+          Efetuar manutenção
+    </button>    
+  </div>
 
 </div>

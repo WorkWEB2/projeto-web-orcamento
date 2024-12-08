@@ -135,6 +135,15 @@ export class OrderModalComponent implements OnInit {
   }
 
   pagarPedido() {
+    this.solicitacaoService.pagar(Number(this.order?.id)).subscribe(
+      (data) => {
+        console.log("Solicitação paga!", data);
+        alert('Serviço Pago!');
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
     this.logHistory(EstadoSolicitacao.paga);
     if (this.order) {
     this.order.estadoAtual = EstadoSolicitacao.paga;
